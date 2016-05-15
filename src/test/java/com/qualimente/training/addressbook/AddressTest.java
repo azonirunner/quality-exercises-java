@@ -2,6 +2,8 @@ package com.qualimente.training.addressbook;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -9,6 +11,15 @@ import static org.junit.Assert.*;
 public class AddressTest {
 
   private static final Random RANDOM = new Random();
+
+  static List<Address> makeAddresses() {
+      int numAddressesForCustomer = RANDOM.nextInt(100) + 1;
+      List<Address> addresses = new ArrayList<>();
+      for (int j = 0; j < numAddressesForCustomer; j++) {
+        addresses.add(AddressTest.makeAddress());
+      }
+      return addresses;
+    }
 
   static Address makeAddress() {
     return new Address(null, "line 1", "line 2", "city", "postal code", "state", "country");
