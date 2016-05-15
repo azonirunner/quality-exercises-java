@@ -22,7 +22,6 @@ public class Controller {
 
   private final AddressDAO addressDAO;
 
-  @SuppressWarnings("SpringJavaAutowiringInspection")
   @Autowired
   public Controller(@NotNull AddressDAO AddressDAO) {
     this.addressDAO = AddressDAO;
