@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping(value = "/customers/{customerId}/addressbook")
 public class Controller {
 
-  private Logger log = LoggerFactory.getLogger(this.getClass());
+  private final Logger log = LoggerFactory.getLogger(this.getClass());
 
   private final AddressDAO addressDAO;
 
@@ -27,7 +27,7 @@ public class Controller {
     this.addressDAO = AddressDAO;
   }
 
-  protected AddressDAO getAddressDAO() {
+  AddressDAO getAddressDAO() {
     return addressDAO;
   }
 

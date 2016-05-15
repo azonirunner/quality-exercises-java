@@ -28,7 +28,7 @@ public class AddressDAOMemoryImplTest {
     return addressesByCustomerId;
   }
 
-  static String makeCustomerId() {
+  private static String makeCustomerId() {
     return UUID.randomUUID().toString();
   }
 
