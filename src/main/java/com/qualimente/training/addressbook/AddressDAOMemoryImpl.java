@@ -29,7 +29,7 @@ public class AddressDAOMemoryImpl implements AddressDAO {
 
   @Override
   public List<Address> findAddressesForCustomerId(String customerId) {
-    log.info("finding addresses for customer: {}", customerId);
+    log.debug("finding addresses for customer: {}", customerId);
 
     return addressesByCustomerId.getOrDefault(customerId, null);
   }
