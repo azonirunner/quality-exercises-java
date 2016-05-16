@@ -45,6 +45,9 @@ Use 'Test Now' development and code review via a partner to add the following fe
     * follows the Single Responsibility Principle
     * does not hinder unit-testing of classes trying to use it, e.g. Address or Controller
     * has > 90% unit test coverage by line
+    * validates [ISO 3166 alpha-2 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) correctly
+    * validates country-specific postal codes are (or may be for certain countries) correct
+
 
     
     
