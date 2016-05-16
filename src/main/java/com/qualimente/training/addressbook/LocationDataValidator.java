@@ -17,6 +17,14 @@ public class LocationDataValidator {
     return INSTANCE;
   }
 
+  public boolean isCountryCodeValid(String countryCode){
+    return false;
+  }
+
+  public boolean isPostalCodeValid(String countryCode, String postalCode){
+    return false;
+  }
+
   @Override
   public String toString() {
     return new ToStringBuilder(this)
