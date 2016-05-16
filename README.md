@@ -49,5 +49,6 @@ Use 'Test Now' development and code review via a partner to add the following fe
     * validates country-specific postal codes are (or may be for certain countries) correct
 
 
-    
-    
+# Thanks # 
+
+Thank you to [GeoNames](http://www.geonames.org/) for providing the great location reference data used within these exercises.  Location data is licensed under the Creative Commons Attributions License.
