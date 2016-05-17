@@ -153,6 +153,16 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+        <configuration>
+          <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -171,4 +181,26 @@
       <version>3.1</version>
     </dependency>
   </dependencies>
+
+  <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>index</report>
+                <report>summary</report>
+                <report>license</report>
+                <report>issue-tracking</report>
+                <report>scm</report>
+                <report>dependencies</report>
+                <report>dependency-convergence</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
+      </plugins>
+    </reporting>
 </project>
