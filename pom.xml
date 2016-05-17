@@ -5,8 +5,11 @@
   <artifactId>quality</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>quality</name>
-  <url>http://maven.apache.org</url>
+  <name>quality-exercises-java</name>
+  <url>https://github.com/qualimente/quality-exercises-java</url>
+  <description>The quality-exercises-java project provides exercises in Java to accompany the QualiMente
+    "Building High-Quality Software Workshop."
+  </description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -25,6 +28,22 @@
     <jacoco.ut.execution.data.file>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.execution.data.file>
     <jacoco.it.execution.data.file>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.execution.data.file>
   </properties>
+
+  <organization>
+    <name>QualiMente</name>
+    <url>https://www.qualimente.com</url>
+  </organization>
+
+  <scm>
+    <url>https://github.com/qualimente/quality-exercises-java</url>
+    <connection>scm:git:git://github.com/qualimente/quality-exercises-java.git</connection>
+    <developerConnection>scm:git:git@github.com/qualimente/quality-exercises-java.git</developerConnection>
+  </scm>
+
+  <issueManagement>
+    <url>https://github.com/qualimente/quality-exercises-java/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
 
   <build>
     <plugins>
