@@ -16,6 +16,8 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * LocationDataValidator provides functions that are useful for validating the correctness of various location-related facts.
+ *
+ * Note: LocationDataValidator is 'troubled' class with a number of problems included to support exercises around refactoring code.
  */
 public class LocationDataValidator {
 
