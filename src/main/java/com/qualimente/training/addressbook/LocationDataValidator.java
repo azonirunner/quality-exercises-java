@@ -32,9 +32,9 @@ public class LocationDataValidator {
       InputStream inputStream = new GZIPInputStream(LocationDataValidator.class.getResourceAsStream("/location-data.tsv.gz"));
       BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
 
-      HashMap<String, Set<String>> postalCodesByCountryCode = new HashMap<String, Set<String>>();
+      HashMap<String, Set<String>> postalCodesByCountryCode = new HashMap<>();
 
-      String line = null;
+      String line;
       while((line = reader.readLine()) != null){
         String[] strings = line.split("\t");
         Set<String> postalCodesForCountry = postalCodesByCountryCode.getOrDefault(strings[0], new LinkedHashSet<>());
