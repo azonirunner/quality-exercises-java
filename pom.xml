@@ -32,8 +32,9 @@
     <start-class>com.qualimente.training.addressbook.AddressBookServer</start-class>
 
     <!-- Code Coverage Configuration -->
-    <jacoco.ut.execution.data.file>${project.build.directory}/coverage-reports/jacoco-ut.exec</jacoco.ut.execution.data.file>
-    <jacoco.it.execution.data.file>${project.build.directory}/coverage-reports/jacoco-it.exec</jacoco.it.execution.data.file>
+    <jacoco.ut.execution.data.file>${project.build.directory}/jacoco.exec</jacoco.ut.execution.data.file>
+    <jacoco.it.execution.data.file>${project.build.directory}/jacoco-it.exec</jacoco.it.execution.data.file>
+    <jacoco-maven-plugin.version>0.7.6.201602180812</jacoco-maven-plugin.version>
   </properties>
 
   <organization>
@@ -99,7 +100,7 @@
         -->
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.6.201602180812</version>
+        <version>${jacoco-maven-plugin.version}</version>
         <executions>
           <!-- Prepares the property pointing to the JaCoCo runtime agent which
           is passed as VM argument when Maven the Surefire plugin is executed.
@@ -247,6 +248,11 @@
             <!-- Directory to put findbugs xdoc xml report -->
             <xmlOutputDirectory>target/site</xmlOutputDirectory>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco-maven-plugin.version}</version>
         </plugin>
       </plugins>
     </reporting>
