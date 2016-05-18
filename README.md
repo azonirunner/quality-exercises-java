@@ -49,6 +49,19 @@ Use 'Test Now' development and code review via a partner to add the following fe
     * validates country-specific postal codes are (or may be for certain countries) correct
 
 
+## Using Quality Reports ##
+
+This project has a small, but very-useful, set of quality reporting configured:
+
+* [FindBugs](http://findbugs.sourceforge.net/): use static analysis to find bugs in the code
+* [JaCoCo](http://eclemma.org/jacoco/): analyze coverage of unit and integration tests
+
+The reporting is created as part of the standard Maven 'site' generation facility:
+
+`mvn clean verify site`
+
+and the generated site is available at `target/site/index.html`
+
 # Thanks # 
 
 Thank you to [GeoNames](http://www.geonames.org/) for providing the great location reference data used within these exercises.  Location data is licensed under the Creative Commons Attributions License.
