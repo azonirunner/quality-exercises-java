@@ -62,6 +62,6 @@ The reporting is created as part of the standard Maven 'site' generation facilit
 
 and the generated site is available at `target/site/index.html`
 
-# Thanks # 
+# Thanks #
 
 Thank you to [GeoNames](http://www.geonames.org/) for providing the great location reference data used within these exercises.  Location data is licensed under the Creative Commons Attributions License.
