@@ -18,8 +18,7 @@ import org.springframework.web.util.UriTemplate;
 import java.net.URI;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * AddressBookAPITest helps define and exercises the API contract of the AddressServer.
@@ -62,7 +61,51 @@ public class AddressBookAPITest {
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
     Address actual = responseEntity.getBody();
+    assertNotNull(actual.getId());
     assertEquals(expected, actual);
+  }
+
+  /**
+   * Verify an address can be addeded for a new customer successfully using only
+   * the minimal data required by the API and no automatic domain model serialization magic.
+   *
+   * @throws Exception when something unexpected happens, meaning test should fail
+   */
+  @Test
+  public void request_to_add_an_address_for_a_new_customer_should_succeed_no_magic() throws Exception {
+    String customerId = makeCustomerId();
+    assertAddressBookIsNotFoundForCustomer(customerId);
+
+    String expectedLine1 = "42 Douglas Adams Way";
+    String expectedCity = "Phoenix";
+    String expectedPostalCode = "85042";
+    String expectedState = "AZ";
+    String expectedCountry = "US";
+    String addressJson = String.format("{" +
+                            "\"line1\": \"%s\"," +
+                            "\"city\": \"%s\"," +
+                            "\"postalCode\": \"%s\"," +
+                            "\"state\": \"%s\"," +
+                            "\"country\": \"%s\"" +
+                            "}", expectedLine1, expectedCity, expectedPostalCode, expectedState, expectedCountry);
+
+    URI uri = new UriTemplate(getCustomerAddressesUrl()).expand(customerId);
+    final RequestEntity<String> addAddressRequest = RequestEntity.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(addressJson);
+
+    ResponseEntity<Address> responseEntity = restTemplate.exchange(addAddressRequest, Address.class);
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+    Address actual = responseEntity.getBody();
+    assertNotNull(actual.getId());
+    assertEquals(expectedLine1, actual.getLine1());
+    assertNull(actual.getLine2());
+    assertEquals(expectedCity, actual.getCity());
+    assertEquals(expectedPostalCode, actual.getPostalCode());
+    assertEquals(expectedState, actual.getState());
+    assertEquals(expectedCountry, actual.getCountry());
   }
 
   private void assertAddressBookIsNotFoundForCustomer(String customerId) {
