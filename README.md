@@ -1,6 +1,6 @@
 # Overview #
 
-This repo contains the exercises that accompany QualiMente's "Building High-Quality Software" workshop for Java.
+This repo contains the exercises that accompany QualiMente's [Building High-Quality Software](https://www.qualimente.com/training/building-high-quality-software-workshop/) workshop for Java.
 
 # Exercises #
 
