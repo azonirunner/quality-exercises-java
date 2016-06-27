@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,11 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(AddressBookServer.class)
-@WebIntegrationTest
+@WebIntegrationTest("server.port:0")
 public class AddressBookAPITest {
 
-  private static final String BASE_REQUEST_URI = "http://localhost:8080";
+  @Value("${local.server.port}")
+  int port;
   private RestTemplate restTemplate;
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -124,7 +126,7 @@ public class AddressBookAPITest {
   }
 
   private String getCustomerAddressesUrl() {
-    return BASE_REQUEST_URI + "/customers/{customerId}/addressbook/addresses";
+    return "http://localhost:" + port + "/customers/{customerId}/addressbook/addresses";
   }
 
 }
