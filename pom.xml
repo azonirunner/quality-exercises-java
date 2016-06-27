@@ -204,6 +204,12 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.1</version>
     </dependency>
+    <dependency>
+      <groupId>io.specto</groupId>
+      <artifactId>hoverfly-jrecorder</artifactId>
+      <version>0.1.2</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <reporting>
