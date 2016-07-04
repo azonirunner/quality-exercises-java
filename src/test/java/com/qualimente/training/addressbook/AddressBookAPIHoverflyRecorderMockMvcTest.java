@@ -1,15 +1,20 @@
 package com.qualimente.training.addressbook;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.specto.hoverfly.recorder.HoverflyFilter;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -18,7 +23,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -29,10 +36,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 //SpringApplicationConfiguration starts-up full application
-@SpringApplicationConfiguration(classes = { AddressBookServer.class, ContractValidationSupportConfiguration.class})
-@WebIntegrationTest("server.port:8080") //change port to 0 for random
-@ActiveProfiles("ContractValidationSupport")
+@SpringApplicationConfiguration(classes = {AddressBookServer.class, ContractValidationSupportConfiguration.class})
+@WebIntegrationTest("server.port:0") //set server.port to 0 for random
 public class AddressBookAPIHoverflyRecorderMockMvcTest {
+
+  private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+  @Rule
+  public TestName testName = new TestName();
 
   @Value("${local.server.port}")
   int port;
@@ -42,16 +53,30 @@ public class AddressBookAPIHoverflyRecorderMockMvcTest {
   @Autowired
   WebApplicationContext webApplicationContext;
 
+  private HoverflyFilter hoverflyFilter;
   private MockMvc mockMvc;
 
   @Before
   public void setUp() {
+    log.info("Started server on port: " + port);
+    String recordingFile = "target/generated-sources/" + "http-recording." + getClass().getSimpleName() + "." + testName.getMethodName() + ".json";
+    log.info("will record http traffic to: " + recordingFile);
+    hoverflyFilter = new HoverflyFilter("http://localhost:" + port, recordingFile);
+
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+        .addFilter(hoverflyFilter)
         .build();
   }
 
+  @After
+  public void tearDown() {
+    if (hoverflyFilter != null) {
+      hoverflyFilter.destroy();
+    }
+  }
+
   @Test
-  public void request_for_addresses_of_unknown_customer_should_respond_404() {
+  public void request_for_addresses_of_unknown_customer_should_respond_404() throws Exception {
     String customerId = "does-not-exist";
     assertAddressBookIsNotFoundForCustomer(customerId);
   }
@@ -116,13 +141,9 @@ public class AddressBookAPIHoverflyRecorderMockMvcTest {
     assertEquals(expectedCountry, actual.getCountry());
   }
 
-  private void assertAddressBookIsNotFoundForCustomer(String customerId) {
-    try {
-      mockMvc.perform(get(getCustomerAddressesUrl(), customerId))
-          .andExpect(status().isNotFound());
-    } catch (Exception e) {
-      fail("Expected addressbook for customer to not be found, but exception occurred:" + e.getMessage());
-    }
+  private void assertAddressBookIsNotFoundForCustomer(String customerId) throws Exception {
+    mockMvc.perform(get(getCustomerAddressesUrl(), customerId))
+        .andExpect(status().isNotFound());
   }
 
   private static String makeCustomerId() {
