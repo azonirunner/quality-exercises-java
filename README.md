@@ -62,6 +62,14 @@ The reporting is created as part of the standard Maven 'site' generation facilit
 
 and the generated site is available at `target/site/index.html`
 
+## Building with Docker ##
+
+This project may also be built with Docker and Docker Compose:
+
+* build project: `docker-compose run build`
+* generate reports: `docker-compose run reports`  
+* run the server: `docker-compose run --service-ports server`
+
 # Thanks #
 
 Thank you to [GeoNames](http://www.geonames.org/) for providing the great location reference data used within these exercises.  Location data is licensed under the Creative Commons Attributions License.
