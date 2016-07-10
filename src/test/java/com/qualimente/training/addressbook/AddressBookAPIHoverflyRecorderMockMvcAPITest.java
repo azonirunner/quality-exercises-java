@@ -111,18 +111,20 @@ public class AddressBookAPIHoverflyRecorderMockMvcAPITest {
     String customerId = makeCustomerId();
     assertAddressBookIsNotFoundForCustomer(customerId);
 
+    String expectedName = "Arthur Dent";
     String expectedLine1 = "42 Douglas Adams Way";
     String expectedCity = "Phoenix";
     String expectedPostalCode = "85042";
     String expectedState = "AZ";
     String expectedCountry = "US";
     String addressJson = String.format("{" +
+                            "\"name\": \"%s\"," +
                             "\"line1\": \"%s\"," +
                             "\"city\": \"%s\"," +
                             "\"postalCode\": \"%s\"," +
                             "\"state\": \"%s\"," +
                             "\"country\": \"%s\"" +
-                            "}", expectedLine1, expectedCity, expectedPostalCode, expectedState, expectedCountry);
+                            "}", expectedName, expectedLine1, expectedCity, expectedPostalCode, expectedState, expectedCountry);
 
     MvcResult result = mockMvc.perform(post(getCustomerAddressesUrl(), customerId)
         .contentType(MediaType.APPLICATION_JSON)
@@ -133,6 +135,7 @@ public class AddressBookAPIHoverflyRecorderMockMvcAPITest {
 
     Address actual = MAPPER.readValue(result.getResponse().getContentAsString(), Address.class);
     assertNotNull(actual.getId());
+    assertEquals(expectedName, actual.getName());
     assertEquals(expectedLine1, actual.getLine1());
     assertNull(actual.getLine2());
     assertEquals(expectedCity, actual.getCity());

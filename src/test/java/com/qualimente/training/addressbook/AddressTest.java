@@ -53,6 +53,11 @@ public class AddressTest {
     new Address(null, anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
   }
 
+  @Test(expected = NullPointerException.class)
+  public void name_should_be_required(){
+    new Address(null, null, anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
+  }
+
   @Test
   public void copyWith_copies_instance_properly() {
     Address original = makeAddress();

@@ -1,10 +1,9 @@
 package com.qualimente.training.addressbook;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Address is the domain model for the address entity.
@@ -28,6 +27,9 @@ public class Address {
                  @JsonProperty("postalCode") String postalCode,
                  @JsonProperty("state") String state,
                  @JsonProperty("country") String country) {
+
+    if(name == null) { throw new NullPointerException("Address name cannot be null"); }
+
     this.id = id;
     this.name = name;
     this.line1 = line1;
@@ -39,6 +41,7 @@ public class Address {
   }
 
   public String getId() { return this.id; }
+  public String getName() { return name; }
   public String getLine1() { return this.line1; }
   public String getLine2() { return this.line2; }
   public String getCity() { return this.city; }
