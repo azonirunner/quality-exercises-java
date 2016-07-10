@@ -110,6 +110,20 @@ public class AddressTest {
     assertNotEquals(add1Hash, new Address(null, line1, line2, city, postalCode, state, anyString()).hashCode());
   }
 
+  @Test
+  public void id_should_not_be_used_in_domain_equality_nor_hashCode(){
+    Address address = makeAddress();
+
+    Address addressWithNullId1 = address.copyWith(null);
+    Address addressWithNullId2 = address.copyWith(null);
+    assertEquals(addressWithNullId1, addressWithNullId2);
+    assertEquals(addressWithNullId1.hashCode(), addressWithNullId2.hashCode());
+
+    Address addressWithId = address.copyWith("an id");
+    assertEquals(addressWithNullId1, addressWithId);
+    assertEquals(addressWithNullId1.hashCode(), addressWithId.hashCode());
+  }
+
   private String anyString() {
     return String.valueOf(RANDOM.nextFloat());
   }
