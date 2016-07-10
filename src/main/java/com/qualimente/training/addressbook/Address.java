@@ -56,6 +56,7 @@ public class Address {
   @Override
   public int hashCode() {
     return new HashCodeBuilder(421, 23)
+        .append(name)
         .append(line1)
         .append(line2)
         .append(city)
@@ -73,6 +74,7 @@ public class Address {
 
     Address rhs = (Address) obj;
     return new EqualsBuilder()
+        .append(name, rhs.name)
         .append(line1, rhs.line1)
         .append(line2, rhs.line2)
         .append(city, rhs.city)
@@ -86,6 +88,7 @@ public class Address {
   public String toString() {
     return new ToStringBuilder(this)
         .append("id", this.id)
+        .append("name", this.name)
         .append("line1", this.line1)
         .append("line2", this.line1)
         .append(city, this.city)

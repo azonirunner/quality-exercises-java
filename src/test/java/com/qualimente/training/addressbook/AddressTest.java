@@ -94,6 +94,24 @@ public class AddressTest {
   }
 
   @Test
+  public void addresses_with_different_names_should_not_be_equal(){
+    String id = anyString();
+    String name = anyString();
+    String line1 = anyString();
+    String line2 = anyString();
+    String city = anyString();
+    String postalCode = anyString();
+    String state = anyString();
+    String country = anyString();
+
+
+    Address address1 = new Address(id, name, line1, line2, city, postalCode, state, country);
+    Address address2 = new Address(id, "not" + name, line1, line2, city, postalCode, state, country);
+
+    assertNotEquals(address1, address2);
+  }
+
+  @Test
   public void implement_hashCode_for_domain() {
     String id = anyString();
     String name = anyString();
@@ -109,12 +127,13 @@ public class AddressTest {
 
     assertEquals(address1.hashCode(), address2.hashCode());
 
-    assertNotEquals(address1.hashCode(), new Address(null, name, anyString(), line2, city, postalCode, state, country));
-    assertNotEquals(address1.hashCode(), new Address(null, name, line1, anyString(), city, postalCode, state, country));
-    assertNotEquals(address1.hashCode(), new Address(null, name, line1, line2, anyString(), postalCode, state, country));
-    assertNotEquals(address1.hashCode(), new Address(null, name, line1, line2, city, anyString(), state, country));
-    assertNotEquals(address1.hashCode(), new Address(null, name, line1, line2, city, postalCode, anyString(), country));
-    assertNotEquals(address1.hashCode(), new Address(null, name, line1, line2, city, postalCode, state, anyString()));
+    assertNotEquals(address1.hashCode(),  new Address(null, anyString(), line1, line2, city, postalCode, state, country).hashCode());
+    assertNotEquals(address1.hashCode(), new Address(null, name, anyString(), line2, city, postalCode, state, country).hashCode());
+    assertNotEquals(address1.hashCode(), new Address(null, name, line1, anyString(), city, postalCode, state, country).hashCode());
+    assertNotEquals(address1.hashCode(), new Address(null, name, line1, line2, anyString(), postalCode, state, country).hashCode());
+    assertNotEquals(address1.hashCode(), new Address(null, name, line1, line2, city, anyString(), state, country).hashCode());
+    assertNotEquals(address1.hashCode(), new Address(null, name, line1, line2, city, postalCode, anyString(), country).hashCode());
+    assertNotEquals(address1.hashCode(), new Address(null, name, line1, line2, city, postalCode, state, anyString()).hashCode());
   }
 
   private String anyString() {
