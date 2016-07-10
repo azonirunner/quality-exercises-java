@@ -1,0 +1,6 @@
+# docs: https://docs.travis-ci.com/user/languages/java
+
+language: java
+script: mvn verify
+jdk:
+  - oraclejdk8
