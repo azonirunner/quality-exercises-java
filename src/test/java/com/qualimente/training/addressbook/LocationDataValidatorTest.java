@@ -21,13 +21,15 @@ public class LocationDataValidatorTest {
   static final Set<String> SAMPLE_VALID_COUNTRY_CODES = Collections.unmodifiableSet(
       new LinkedHashSet<String>() {
         {
-          add("US");
+          add("CA");
+          add("DE");
+          add("ES");
           add("GB");
           add("FR");
-          add("ES");
           add("IT");
-          add("RU");
           add("JP");
+          add("RU");
+          add("US");
         }
       });
 
