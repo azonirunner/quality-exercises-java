@@ -2,6 +2,8 @@
 
 This repo contains the exercises that accompany QualiMente's [Building High-Quality Software](https://www.qualimente.com/training/building-high-quality-software-workshop/) workshop for Java.
 
+[![Build Status](https://travis-ci.org/qualimente/quality-exercises-java.svg?branch=master)](https://travis-ci.org/qualimente/quality-exercises-java)
+
 # Exercises #
 
 The following exercises are intended to help the student practice quality assurance methods such as testing and inspection.
