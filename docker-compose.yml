@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  build:
+    image: maven:3.3-jdk-8
+    volumes:
+     - .:/project
+     - ./repo:/root/.m2/repository
+    working_dir: /project
+    command: mvn clean verify
+
+  reports:
+    image: maven:3.3-jdk-8
+    volumes:
+     - .:/project
+     - ./repo:/root/.m2/repository
+    working_dir: /project
+    command: mvn site
+
+  server:
+    image: maven:3.3-jdk-8
+    volumes:
+     - .:/project
+     - ./repo:/root/.m2/repository
+    working_dir: /project
+    ports:
+     - 8080:8080
+    command: java -jar target/quality-1.0-SNAPSHOT.jar

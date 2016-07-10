@@ -67,3 +67,9 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 # Created by .ignore support plugin (hsz.mobi)
+
+# local [.m2] artifact repo
+repo
+
+# miscellaenous files
+*.out
