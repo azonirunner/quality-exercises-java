@@ -86,4 +86,24 @@ public class LocationDataValidatorTest {
           locationDataValidator.isCountryCodeValid(countryCode));
     }
   }
+
+  @Test
+  public void isPostalCodeValid_should_detect_valid_postal_codes(){
+    assertTrue(locationDataValidator.isPostalCodeValid("CA", "M5V" /*+ " 2T6"*/));
+
+    assertTrue(locationDataValidator.isPostalCodeValid("US", "10118"));
+    assertTrue(locationDataValidator.isPostalCodeValid("US", "20500"));
+    assertTrue(locationDataValidator.isPostalCodeValid("US", "85042"));
+    assertTrue(locationDataValidator.isPostalCodeValid("US", "94065"));
+  }
+
+  @Test
+  public void isPostalCodeValid_should_detect_invalid_postal_codes(){
+    assertFalse(locationDataValidator.isPostalCodeValid("CA", "A00"));
+    assertFalse(locationDataValidator.isPostalCodeValid("CA", "A0A 042"));
+
+    assertFalse(locationDataValidator.isPostalCodeValid("US", "42"));
+    assertFalse(locationDataValidator.isPostalCodeValid("US", "8504242"));
+    assertFalse(locationDataValidator.isPostalCodeValid("US", "85424"));
+  }
 }
