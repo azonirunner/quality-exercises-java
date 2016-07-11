@@ -67,12 +67,23 @@ public class ControllerTest {
     Controller controller = new Controller(makeAddressDAO());
 
     for(String invalidCountryCode : LocationDataValidatorTest.SAMPLE_INVALID_COUNTRY_CODES){
-      Address expectedAddress = new Address(null, "name", "line1", null, "city", "postalCode", "state", invalidCountryCode);
+      Address expectedAddress = new Address(null, "name", "line1", null, "city", "85042", "state", invalidCountryCode);
       ResponseEntity<Address> responseEntity = controller.addAddress(customerId, expectedAddress);
 
       assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 
     }
+  }
+
+  @Test
+  public void addAddress_should_reject_invalid_postal_codes(){
+    String customerId = "abcd-1234";
+    Controller controller = new Controller(makeAddressDAO());
+
+    Address expectedAddress = new Address(null, "name", "line1", null, "city", "24", "state", "US");
+    ResponseEntity<Address> responseEntity = controller.addAddress(customerId, expectedAddress);
+
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
   }
 
   private AddressDAO makeAddressDAO() {

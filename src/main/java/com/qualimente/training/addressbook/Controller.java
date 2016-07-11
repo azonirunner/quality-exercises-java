@@ -56,6 +56,10 @@ public class Controller {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
+    if(!locationDataValidator.isPostalCodeValid(address.getCountry(), address.getPostalCode())){
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
     try {
       Address storedAddress = addressDAO.addAddress(customerId, address);
       return ResponseEntity.ok(storedAddress);

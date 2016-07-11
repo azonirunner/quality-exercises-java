@@ -22,7 +22,7 @@ public class AddressTest {
     }
 
   static Address makeAddress() {
-    return new Address(null, "name", "line 1", "line 2", "city", "postal code", "state", "US");
+    return new Address(null, "name", "line 1", "line 2", "city", "85042", "state", "US");
   }
 
   @Test
