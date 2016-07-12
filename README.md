@@ -16,6 +16,15 @@ Complete each exercise using the recommended quality assurance methods:
 
 `mvn clean verify` should always succeed when an exercise has been completed.
 
+## Setting-up ##
+
+The exercises project requires:
+
+* [Maven 3.3](http://maven.apache.org/index.html)
+* [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+
+or [Docker](https://www.docker.com/products/overview)
+
 ## Testing New Code ##
 
 Use Test Driven Development and pair programming to add the following features:
