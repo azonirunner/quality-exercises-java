@@ -24,13 +24,17 @@ public class Controller {
   private LocationDataValidator locationDataValidator;
 
   @Autowired
-  public Controller(@NotNull AddressDAO AddressDAO) {
+  public Controller(@NotNull AddressDAO AddressDAO, @NotNull LocationDataValidator locationDataValidator) {
     this.addressDAO = AddressDAO;
-    this.locationDataValidator = LocationDataValidator.getInstance();
+    this.locationDataValidator = locationDataValidator;
   }
 
   AddressDAO getAddressDAO() {
     return addressDAO;
+  }
+
+  LocationDataValidator getLocationDataValidator() {
+    return locationDataValidator;
   }
 
   @RequestMapping(value = "/addresses", method = RequestMethod.GET)
@@ -67,4 +71,5 @@ public class Controller {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
   }
+
 }

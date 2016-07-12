@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
  *   <li>https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</li>
  * </ol>
  */
-public class LocationDataValidatorTest {
+public class LocationDataValidatorImplTest {
 
   static final Set<String> SAMPLE_VALID_COUNTRY_CODES = Collections.unmodifiableSet(
       new LinkedHashSet<String>() {
@@ -60,7 +60,7 @@ public class LocationDataValidatorTest {
 
   @Before
   public void setUp(){
-    locationDataValidator = LocationDataValidator.getInstance();
+    locationDataValidator = LocationDataValidatorImpl.getInstance();
   }
 
   @Test
