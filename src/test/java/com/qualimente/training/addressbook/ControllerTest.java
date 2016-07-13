@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 public class ControllerTest {
 
@@ -75,26 +77,38 @@ public class ControllerTest {
   @Test
   public void addAddress_should_reject_invalid_country_codes(){
     String customerId = "abcd-1234";
-    Controller controller = new Controller(makeAddressDAO(), makeLocationDataValidator());
+    LocationDataValidator locationDataValidator = mock(LocationDataValidator.class);
+    when(locationDataValidator.isCountryCodeValid(anyString())).thenReturn(Boolean.FALSE);
 
-    for(String invalidCountryCode : LocationDataValidatorImplTest.SAMPLE_INVALID_COUNTRY_CODES){
-      Address expectedAddress = new Address(null, "name", "line1", null, "city", "85042", "state", invalidCountryCode);
-      ResponseEntity<Address> responseEntity = controller.addAddress(customerId, expectedAddress);
+    Controller controller = new Controller(makeAddressDAO(), locationDataValidator);
+    Address expectedAddress = AddressTest.makeAddress();
+    ResponseEntity<Address> responseEntity = controller.addAddress(customerId, expectedAddress);
 
-      assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 
-    }
+    verify(locationDataValidator).isCountryCodeValid(expectedAddress.getCountry());
+    verifyNoMoreInteractions(locationDataValidator);
   }
 
   @Test
   public void addAddress_should_reject_invalid_postal_codes(){
     String customerId = "abcd-1234";
-    Controller controller = new Controller(makeAddressDAO(), makeLocationDataValidator());
+    Address expectedAddress = AddressTest.makeAddress();
 
-    Address expectedAddress = new Address(null, "name", "line1", null, "city", "24", "state", "US");
+    LocationDataValidator locationDataValidator = mock(LocationDataValidator.class);
+    when(locationDataValidator.isCountryCodeValid(expectedAddress.getCountry())).thenReturn(Boolean.TRUE);
+    when(locationDataValidator.isPostalCodeValid(eq(expectedAddress.getCountry()), anyString()))
+        .thenReturn(Boolean.FALSE);
+
+    Controller controller = new Controller(makeAddressDAO(), locationDataValidator);
+
     ResponseEntity<Address> responseEntity = controller.addAddress(customerId, expectedAddress);
 
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+
+    verify(locationDataValidator).isCountryCodeValid(expectedAddress.getCountry());
+    verify(locationDataValidator).isPostalCodeValid(expectedAddress.getCountry(), expectedAddress.getPostalCode());
+    verifyNoMoreInteractions(locationDataValidator);
   }
 
   private AddressDAO makeAddressDAO() {
