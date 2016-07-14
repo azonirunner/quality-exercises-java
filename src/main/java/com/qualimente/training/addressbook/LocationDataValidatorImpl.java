@@ -5,15 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.zip.GZIPInputStream;
 
 /**
  * LocationDataValidator provides functions that are useful for validating the correctness of various location-related facts.
@@ -27,30 +20,8 @@ public class LocationDataValidatorImpl implements LocationDataValidator {
 
   private static final LocationDataValidatorImpl INSTANCE = new LocationDataValidatorImpl();
 
-  private static final Map<String, Set<String>> postalCodesByCountryCode = makePostalCodesByCountryCode();
-
-  private static HashMap<String, Set<String>> makePostalCodesByCountryCode() {
-    try {
-      InputStream inputStream = new GZIPInputStream(LocationDataValidatorImpl.class.getResourceAsStream("/location-data.tsv.gz"));
-      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-
-      HashMap<String, Set<String>> postalCodesByCountryCode = new HashMap<>();
-
-      String line;
-      while((line = reader.readLine()) != null){
-        String[] strings = line.split("\t");
-        Set<String> postalCodesForCountry = postalCodesByCountryCode.getOrDefault(strings[0], new LinkedHashSet<>());
-        postalCodesForCountry.add(strings[1]);
-        postalCodesByCountryCode.put(strings[0], postalCodesForCountry);
-      }
-
-      return postalCodesByCountryCode;
-    } catch (IOException e) {
-      log.error("Encountered error while generating indices of postal and country codes", e);
-      throw new RuntimeException(e);
-    }
-  }
-
+  private static final Map<String, Set<String>> postalCodesByCountryCode =
+      new LocationDataLoader().makePostalCodesByCountryCode();
 
   //hide constructor as part of Singleton implementation
   private LocationDataValidatorImpl() {
