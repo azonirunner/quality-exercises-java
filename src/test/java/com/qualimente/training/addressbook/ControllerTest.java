@@ -1,5 +1,6 @@
 package com.qualimente.training.addressbook;
 
+import com.pholser.junit.quickcheck.From;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Test;
@@ -62,14 +63,14 @@ public class ControllerTest {
   }
 
   @Property
-  public void addAddress_should_store_customer_address_in_repository(UUID customerUUID){
+  public void addAddress_should_store_customer_address_in_repository
+      (UUID customerUUID, @From(AddressGenerator.class) Address expectedAddress){
     AddressDAO addressDAO = new AddressDAOMemoryImpl(AddressDAOMemoryImplTest.makeAddressesByCustomerId());
 
     String customerId = customerUUID.toString();
     //System.out.println("customerId: " + customerId);
     Controller controller = new Controller(addressDAO, makeLocationDataValidator());
 
-    Address expectedAddress = AddressTest.makeAddress();
     ResponseEntity<Address> responseEntity = controller.addAddress(customerId, expectedAddress);
 
     assertEquals(HttpStatus.OK, responseEntity.getStatusCode());

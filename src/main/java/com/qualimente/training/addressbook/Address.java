@@ -91,10 +91,10 @@ public class Address {
         .append("name", this.name)
         .append("line1", this.line1)
         .append("line2", this.line1)
-        .append(city, this.city)
-        .append(postalCode, this.postalCode)
-        .append(state, this.state)
-        .append(country, this.country)
+        .append("city", this.city)
+        .append("postalCode", this.postalCode)
+        .append("state", this.state)
+        .append("country", this.country)
         .toString();
   }
 }
