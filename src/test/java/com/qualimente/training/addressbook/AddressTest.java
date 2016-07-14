@@ -1,6 +1,9 @@
 package com.qualimente.training.addressbook;
 
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
+@RunWith(JUnitQuickcheck.class)
 public class AddressTest {
 
   private static final Random RANDOM = new Random();
@@ -91,6 +95,30 @@ public class AddressTest {
     assertTrue(address1.equals(address2));
     assertTrue(address2.equals(address1));
 
+  }
+
+  @Property
+  public void implement_equals_for_domain_generative(
+      String id,
+      String name,
+      String line1,
+      String line2,
+      String city,
+      String postalCode,
+      String state,
+      String country) {
+
+    Address address1 = new Address(id, name, line1, line2, city, postalCode, state, country);
+    Address address2 = new Address(id, name, line1, line2, city, postalCode, state, country);
+
+    //noinspection ObjectEqualsNull
+    assertFalse(address1.equals(null));
+
+    //noinspection EqualsWithItself
+    assertTrue(address1.equals(address1));
+
+    assertTrue(address1.equals(address2));
+    assertTrue(address2.equals(address1));
   }
 
   @Test
