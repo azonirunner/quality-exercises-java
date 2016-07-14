@@ -1,16 +1,21 @@
 package com.qualimente.training.addressbook;
 
+import com.pholser.junit.quickcheck.Property;
+import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
+@RunWith(JUnitQuickcheck.class)
 public class ControllerTest {
 
   @Test
@@ -41,10 +46,10 @@ public class ControllerTest {
     }
   }
 
-  @Test
-  public void getAddressesForCustomer_should_find_customer_addresses_in_repository(){
+  @Property
+  public void getAddressesForCustomer_should_find_customer_addresses_in_repository(UUID customerUUID){
     HashMap<String, List<Address>> addressesByCustomerId = new HashMap<>();
-    String customerId = "abcd-1234";
+    String customerId = customerUUID.toString();
     List<Address> expectedAddresses = AddressTest.makeAddresses();
     addressesByCustomerId.put(customerId, expectedAddresses);
     AddressDAO addressDAO = new AddressDAOMemoryImpl(addressesByCustomerId);
@@ -56,11 +61,12 @@ public class ControllerTest {
     assertEquals(expectedAddresses, actualAddresses);
   }
 
-  @Test
-  public void addAddress_should_store_customer_address_in_repository(){
+  @Property
+  public void addAddress_should_store_customer_address_in_repository(UUID customerUUID){
     AddressDAO addressDAO = new AddressDAOMemoryImpl(AddressDAOMemoryImplTest.makeAddressesByCustomerId());
 
-    String customerId = "abcd-1234";
+    String customerId = customerUUID.toString();
+    //System.out.println("customerId: " + customerId);
     Controller controller = new Controller(addressDAO, makeLocationDataValidator());
 
     Address expectedAddress = AddressTest.makeAddress();

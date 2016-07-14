@@ -35,6 +35,8 @@
     <jacoco.ut.execution.data.file>${project.build.directory}/jacoco.exec</jacoco.ut.execution.data.file>
     <jacoco.it.execution.data.file>${project.build.directory}/jacoco-it.exec</jacoco.it.execution.data.file>
     <jacoco-maven-plugin.version>0.7.6.201602180812</jacoco-maven-plugin.version>
+
+    <junit-quickcheck-core.version>0.6</junit-quickcheck-core.version>
   </properties>
 
   <organization>
@@ -214,6 +216,24 @@
       <artifactId>hoverfly-jrecorder</artifactId>
       <version>0.1.2</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.pholser</groupId>
+        <artifactId>junit-quickcheck-core</artifactId>
+        <version>${junit-quickcheck-core.version}</version>
+        <scope>test</scope>
+        <exclusions>
+            <exclusion>
+                <groupId>javassist</groupId>
+                <artifactId>javassist</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+        <groupId>com.pholser</groupId>
+        <artifactId>junit-quickcheck-generators</artifactId>
+        <version>${junit-quickcheck-core.version}</version>
+        <scope>test</scope>
     </dependency>
   </dependencies>
 
