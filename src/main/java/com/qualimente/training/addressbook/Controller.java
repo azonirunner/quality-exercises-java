@@ -50,6 +50,10 @@ public class Controller {
   ResponseEntity<Address> addAddress(@PathVariable("customerId") String customerId, @RequestBody Address address) {
     log.info("adding address for customerId: {} address: {}", customerId, address);
 
+    if(!LocationDataValidator.getInstance().isCountryCodeValid(address.getCountry())){
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
+
     try {
       Address storedAddress = addressDAO.addAddress(customerId, address);
       return ResponseEntity.ok(storedAddress);
