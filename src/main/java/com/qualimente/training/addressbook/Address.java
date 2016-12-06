@@ -48,7 +48,7 @@ public class Address {
   public String getCountry() { return this.country; }
 
   public Address copyWith(String id) {
-    return new Address(id, name, getLine1(), getLine2(), getCity(), getPostalCode(), getState(), getCountry());
+    return new Address(id, getName(), getLine1(), getLine2(), getCity(), getPostalCode(), getState(), getCountry());
   }
 
   @Override
