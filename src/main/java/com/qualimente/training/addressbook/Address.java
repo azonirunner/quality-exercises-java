@@ -28,6 +28,9 @@ public class Address {
                  @JsonProperty("postalCode") String postalCode,
                  @JsonProperty("state") String state,
                  @JsonProperty("country") String country) {
+
+    if(name == null){ throw new IllegalArgumentException("Address' name property may not be null"); }
+
     this.id = id;
     this.name = name;
     this.line1 = line1;
