@@ -22,11 +22,13 @@ public class ControllerIT {
   @Autowired
   private AddressDAO addressDAO;
 
+  @Autowired LocationDataValidator locationDataValidator;
+
   @Test
   public void getAddressesForCustomer_should_find_customer_addresses_that_were_added_to_repository(){
     HashMap<String, List<Address>> addressesByCustomerId = new HashMap<>();
 
-    Controller controller = new Controller(addressDAO);
+    Controller controller = new Controller(addressDAO, locationDataValidator);
 
     int numCustomers = 100;
     for(int i = 0; i < numCustomers; i++){

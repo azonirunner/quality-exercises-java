@@ -1,5 +1,6 @@
 package com.qualimente.training.addressbook;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertTrue;
  *   <li>https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2</li>
  * </ol>
  */
-public class LocationDataValidatorTest {
+public class GeoNamesLocationDataValidatorTest {
 
   static final Set<String> SAMPLE_VALID_COUNTRY_CODES = Collections.unmodifiableSet(
       new LinkedHashSet<String>() {
@@ -45,11 +46,19 @@ public class LocationDataValidatorTest {
       }
   );
 
+  private GeoNamesLocationDataValidator locationDataValidator;
+
+  @Before
+  public void setUp(){
+    locationDataValidator = GeoNamesLocationDataValidator.getInstance();
+  }
+
   @Test
   public void isCountryCodeValid_should_detect_valid_country_codes() {
     for (String countryCode : SAMPLE_VALID_COUNTRY_CODES) {
+      locationDataValidator = GeoNamesLocationDataValidator.getInstance();
       assertTrue("Expected '" + countryCode + "' to be valid",
-          LocationDataValidator.getInstance().isCountryCodeValid(countryCode));
+          locationDataValidator.isCountryCodeValid(countryCode));
     }
   }
 
@@ -57,13 +66,13 @@ public class LocationDataValidatorTest {
   public void isCountryCodeValid_should_detect_invalid_country_codes() {
     for (String countryCode : SAMPLE_INVALID_COUNTRY_CODES) {
       assertFalse("Expected '" + countryCode + "' to be invalid",
-          LocationDataValidator.getInstance().isCountryCodeValid(countryCode));
+          GeoNamesLocationDataValidator.getInstance().isCountryCodeValid(countryCode));
     }
   }
 
   @Test
   public void isPostalCodeValid_should_detect_valid_country_codes() {
-    assertTrue(LocationDataValidator.getInstance().isPostalCodeValid("US", "20500"));
-    assertTrue(LocationDataValidator.getInstance().isPostalCodeValid("US", "85040"));
+    assertTrue(GeoNamesLocationDataValidator.getInstance().isPostalCodeValid("US", "20500"));
+    assertTrue(GeoNamesLocationDataValidator.getInstance().isPostalCodeValid("US", "85040"));
   }
 }
