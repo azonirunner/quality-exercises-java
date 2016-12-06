@@ -87,6 +87,13 @@ public class AddressTest {
     assertTrue(address1.equals(address2));
     assertTrue(address2.equals(address1));
 
+    assertNotEquals(address1, new Address(id, anyString(), line1, line2, city, postalCode, state, country));
+    assertNotEquals(address1, new Address(id, name, anyString(), line2, city, postalCode, state, country));
+    assertNotEquals(address1, new Address(id, name, line1, anyString(), city, postalCode, state, country));
+    assertNotEquals(address1, new Address(id, name, line1, line2, anyString(), postalCode, state, country));
+    assertNotEquals(address1, new Address(id, name, line1, line2, city, anyString(), state, country));
+    assertNotEquals(address1, new Address(id, name, line1, line2, city, postalCode, anyString(), country));
+    assertNotEquals(address1, new Address(id, name, line1, line2, city, postalCode, state, anyString()));
   }
 
   @Test
@@ -106,6 +113,7 @@ public class AddressTest {
     int add1Hash = address1.hashCode();
     assertEquals(add1Hash, address2.hashCode());
 
+    assertNotEquals(add1Hash, new Address(null, anyString(), line1, line2, city, postalCode, state, country).hashCode());
     assertNotEquals(add1Hash, new Address(null, name, anyString(), line2, city, postalCode, state, country).hashCode());
     assertNotEquals(add1Hash, new Address(null, name, line1, anyString(), city, postalCode, state, country).hashCode());
     assertNotEquals(add1Hash, new Address(null, name, line1, line2, anyString(), postalCode, state, country).hashCode());
