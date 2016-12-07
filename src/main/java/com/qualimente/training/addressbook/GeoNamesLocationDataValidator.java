@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -17,7 +16,7 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * LocationDataValidator provides functions that are useful for validating the correctness of various location-related facts.
- *
+ * <p/>
  * Note: LocationDataValidator is 'troubled' class with a number of problems included to support exercises around refactoring code.
  */
 @Component
@@ -30,14 +29,13 @@ public class GeoNamesLocationDataValidator implements LocationDataValidator {
   private static final Map<String, Set<String>> postalCodesByCountryCode = makePostalCodesByCountryCode();
 
   private static HashMap<String, Set<String>> makePostalCodesByCountryCode() {
-    try {
-      InputStream inputStream = new GZIPInputStream(GeoNamesLocationDataValidator.class.getResourceAsStream("/location-data.tsv.gz"));
-      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+    try (BufferedReader reader = new BufferedReader
+        (new InputStreamReader(new GZIPInputStream(GeoNamesLocationDataValidator.class.getResourceAsStream("/location-data.tsv.gz")), "UTF-8"))) {
 
       HashMap<String, Set<String>> postalCodesByCountryCode = new HashMap<>();
 
       String line;
-      while((line = reader.readLine()) != null){
+      while ((line = reader.readLine()) != null) {
         String[] strings = line.split("\t");
         Set<String> postalCodesForCountry = postalCodesByCountryCode.getOrDefault(strings[0], new LinkedHashSet<>());
         postalCodesForCountry.add(strings[1]);
@@ -60,11 +58,11 @@ public class GeoNamesLocationDataValidator implements LocationDataValidator {
     return INSTANCE;
   }
 
-  public boolean isCountryCodeValid(String countryCode){
+  public boolean isCountryCodeValid(String countryCode) {
     return postalCodesByCountryCode.containsKey(countryCode);
   }
 
-  public boolean isPostalCodeValid(String countryCode, String postalCode){
+  public boolean isPostalCodeValid(String countryCode, String postalCode) {
     return isCountryCodeValid(countryCode) && postalCodesByCountryCode.get(countryCode).contains(postalCode);
   }
 
