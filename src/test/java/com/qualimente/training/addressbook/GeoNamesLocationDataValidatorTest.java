@@ -46,6 +46,15 @@ public class GeoNamesLocationDataValidatorTest {
       }
   );
 
+  static final Set<String> SAMPLE_WEIRD_COUNTRY_CODES_THAT_SHOULD_BE_VALID_BUT_ARE_NOT = Collections.unmodifiableSet(
+      new LinkedHashSet<String>() {
+        {
+          add("CN");
+          add("UK");
+        }
+      }
+  );
+
   private GeoNamesLocationDataValidator locationDataValidator;
 
   @Before
@@ -74,5 +83,12 @@ public class GeoNamesLocationDataValidatorTest {
   public void isPostalCodeValid_should_detect_valid_country_codes() {
     assertTrue(GeoNamesLocationDataValidator.getInstance().isPostalCodeValid("US", "20500"));
     assertTrue(GeoNamesLocationDataValidator.getInstance().isPostalCodeValid("US", "85040"));
+  }
+
+  @Test
+  public void verify_weird_country_codes_still_invalid_just_want_to_know_about_changes(){
+    for(String countryCode : SAMPLE_WEIRD_COUNTRY_CODES_THAT_SHOULD_BE_VALID_BUT_ARE_NOT){
+      assertFalse(GeoNamesLocationDataValidator.getInstance().isCountryCodeValid(countryCode));
+    }
   }
 }
