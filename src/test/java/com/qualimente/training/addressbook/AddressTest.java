@@ -132,6 +132,13 @@ public class AddressTest {
     new Address(null, null, "line 1", "line 2", "city", "postal code", "state", "country");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void country_code_is_rejected_when_null(){
+    new Address(null, "name", "line 1", "line 2", "city", "postal code", "state", null);
+  }
+
+
+
   private String anyString() {
     return String.valueOf(RANDOM.nextFloat());
   }

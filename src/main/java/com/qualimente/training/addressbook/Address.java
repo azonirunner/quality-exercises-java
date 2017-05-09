@@ -38,6 +38,9 @@ public class Address {
     this.city = city;
     this.postalCode = postalCode;
     this.state = state;
+    if(null == country){
+      throw new IllegalArgumentException("country should not be null");
+    }
     this.country = country;
   }
 
