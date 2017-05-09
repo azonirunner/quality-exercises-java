@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import javax.xml.stream.Location;
 import java.util.List;
 
 /**
@@ -34,6 +35,7 @@ public class Controller {
   @RequestMapping(value = "/addresses", method = RequestMethod.GET)
   public ResponseEntity<?> getAddressesForCustomer(@PathVariable("customerId") String customerId) {
     log.info("addresses requested for customerId: {}", customerId);
+
     try {
       List<Address> addressesForCustomerId = addressDAO.findAddressesForCustomerId(customerId);
       if (addressesForCustomerId == null) {
@@ -51,6 +53,10 @@ public class Controller {
     log.info("adding address for customerId: {} address: {}", customerId, address);
 
     try {
+      if(!LocationDataValidator.getInstance().isCountryCodeValid(address.getCountry())){
+        return ResponseEntity.badRequest().body(address);
+      }
+
       Address storedAddress = addressDAO.addAddress(customerId, address);
       return ResponseEntity.ok(storedAddress);
     } catch (Exception e) {

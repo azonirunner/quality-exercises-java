@@ -61,6 +61,18 @@ public class ControllerTest {
     assertTrue(addresses.contains(expectedAddress));
   }
 
+  @Test
+  public void addAddress_should_reject_addresses_with_invalid_countryCodes(){
+    AddressDAO AddressDAO = new AddressDAOMemoryImpl(AddressDAOMemoryImplTest.makeAddressesByCustomerId());
+
+    String customerId = "abcd-1234";
+    Controller controller = new Controller(AddressDAO);
+    String invalidCountryCode = "invalid";
+    Address invalidAddress = new Address(null, "name", "line1", "line2", "city", "postalCode", "az", invalidCountryCode);
+    ResponseEntity<Address> responseEntity = controller.addAddress(customerId, invalidAddress);
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+  }
+
   private AddressDAO makeAddressDAO() {
     return new AddressDAOMemoryImpl();
   }
