@@ -127,11 +127,6 @@ public class AddressTest {
     assertEquals(addressWithNullId1.hashCode(), addressWithId.hashCode());
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void name_is_invalid_when_null(){
-    new Address(null, null, "line 1", "line 2", "city", "postal code", "state", "country");
-  }
-
   private String anyString() {
     return String.valueOf(RANDOM.nextFloat());
   }
