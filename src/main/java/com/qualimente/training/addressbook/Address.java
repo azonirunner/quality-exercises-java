@@ -21,7 +21,7 @@ public class Address {
   private final String country;
 
   public Address(@JsonProperty("id") String id,
-                 @JsonProperty("name") String name,
+                 String name,
                  @JsonProperty("line1") String line1,
                  @JsonProperty("line2") String line2,
                  @JsonProperty("city") String city,
