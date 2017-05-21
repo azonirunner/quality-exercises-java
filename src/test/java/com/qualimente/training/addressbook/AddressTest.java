@@ -24,8 +24,7 @@ public class AddressTest {
     }
 
   static Address makeAddress() {
-
-    return new Address(null, "name - " + anyString(), "line 1 - " + anyString(), "line 2 - " + anyString(), "city - " + anyString(), "postal code - " + anyString(), "state - " + anyString(), "country - " + anyString());
+    return new Address(null, "name - " + anyString(), "line 1 - " + anyString(), "line 2 - " + anyString(), "city - " + anyString(), "postal code - " + anyString(), "state - " + anyString(), "US");
   }
 
   @Test

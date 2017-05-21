@@ -51,6 +51,10 @@ public class Controller {
     log.info("adding address for customerId: {} address: {}", customerId, address);
 
     try {
+      if(!LocationDataValidator.getInstance().isCountryCodeValid(address.getCountry())){
+        return ResponseEntity.badRequest().body(address);
+      }
+
       Address storedAddress = addressDAO.addAddress(customerId, address);
       return ResponseEntity.ok(storedAddress);
     } catch (Exception e) {
