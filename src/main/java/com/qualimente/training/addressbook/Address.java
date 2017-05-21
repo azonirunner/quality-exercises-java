@@ -29,6 +29,9 @@ public class Address {
                  @JsonProperty("state") String state,
                  @JsonProperty("country") String country) {
     this.id = id;
+    if(null == name){
+      throw new IllegalArgumentException("Name is required, but was null");
+    }
     this.name = name;
     this.line1 = line1;
     this.line2 = line2;

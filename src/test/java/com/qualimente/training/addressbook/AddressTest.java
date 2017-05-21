@@ -57,6 +57,11 @@ public class AddressTest {
     new Address(null, anyString() , anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void should_require_a_name(){
+    new Address(null, null , anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
+  }
+
   @Test
   public void copyWith_copies_instance_properly() {
     Address original = makeAddress();
