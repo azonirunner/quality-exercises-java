@@ -78,14 +78,6 @@ public class Address {
 
   @Override
   public String toString() {
-    return new ToStringBuilder(this)
-        .append("id", this.id)
-        .append("line1", this.line1)
-        .append("line2", this.line1)
-        .append(city, this.city)
-        .append(postalCode, this.postalCode)
-        .append(state, this.state)
-        .append(country, this.country)
-        .toString();
+    return ToStringBuilder.reflectionToString(this);
   }
 }
