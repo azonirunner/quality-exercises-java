@@ -18,8 +18,10 @@ public class Address {
   private final String state;
   private final String postalCode;
   private final String country;
+  private String name;
 
   public Address(@JsonProperty("id") String id,
+                 @JsonProperty("name") String name,
                  @JsonProperty("line1") String line1,
                  @JsonProperty("line2") String line2,
                  @JsonProperty("city") String city,
@@ -27,6 +29,7 @@ public class Address {
                  @JsonProperty("state") String state,
                  @JsonProperty("country") String country) {
     this.id = id;
+    this.name = name;
     this.line1 = line1;
     this.line2 = line2;
     this.city = city;
@@ -36,6 +39,7 @@ public class Address {
   }
 
   public String getId() { return this.id; }
+  public String getName() { return name; }
   public String getLine1() { return this.line1; }
   public String getLine2() { return this.line2; }
   public String getCity() { return this.city; }
@@ -44,12 +48,13 @@ public class Address {
   public String getCountry() { return this.country; }
 
   public Address copyWith(String id) {
-    return new Address(id, getLine1(), getLine2(), getCity(), getPostalCode(), getState(), getCountry());
+    return new Address(id, getName(), getLine1(), getLine2(), getCity(), getPostalCode(), getState(), getCountry());
   }
 
   @Override
   public int hashCode() {
     return new HashCodeBuilder(421, 23)
+        .append(name)
         .append(line1)
         .append(line2)
         .append(city)
@@ -67,6 +72,7 @@ public class Address {
 
     Address rhs = (Address) obj;
     return new EqualsBuilder()
+        .append(name, rhs.name)
         .append(line1, rhs.line1)
         .append(line2, rhs.line2)
         .append(city, rhs.city)
@@ -80,4 +86,5 @@ public class Address {
   public String toString() {
     return ToStringBuilder.reflectionToString(this);
   }
+
 }
