@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class LocationDataValidatorTest {
+public class GeoNamesLocationDataValidatorTest {
 
   @Test
   public void isCountryCodeValid_should_be_true_for_valid_country_codes() {
@@ -13,7 +13,7 @@ public class LocationDataValidatorTest {
         "CA", "DE", "FR", "IT", "JP", "RU", "US"
     }) {
       assertTrue("Expected " + countryCode + " to be valid, but was not",
-          LocationDataValidator.getInstance().isCountryCodeValid(countryCode));
+          GeoNamesLocationDataValidator.getInstance().isCountryCodeValid(countryCode));
     }
   }
 
@@ -28,7 +28,7 @@ public class LocationDataValidatorTest {
         , "USA"
     }) {
       assertFalse("Expected " + countryCode + " to be invalid, but was not",
-          LocationDataValidator.getInstance().isCountryCodeValid(countryCode));
+          GeoNamesLocationDataValidator.getInstance().isCountryCodeValid(countryCode));
     }
   }
 
@@ -37,7 +37,7 @@ public class LocationDataValidatorTest {
     String countryCode = "US";
     String postalCode = "20500";
 
-    assertTrue("Expected ", LocationDataValidator.getInstance()
+    assertTrue("Expected ", GeoNamesLocationDataValidator.getInstance()
         .isPostalCodeValid(countryCode, postalCode));
   }
 
