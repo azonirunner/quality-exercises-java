@@ -1,11 +1,13 @@
 package com.qualimente.training.addressbook;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.*;
 
 public class AddressTest {
@@ -22,7 +24,7 @@ public class AddressTest {
     }
 
   static Address makeAddress() {
-    return new Address(null, "line 1", "line 2", "city", "postal code", "state", "country");
+    return new Address(null, "line 1 - " + anyString(), "line 2 - " + anyString(), "city - " + anyString(), "postal code - " + anyString(), "state - " + anyString(), "country - " + anyString());
   }
 
   @Test
@@ -124,7 +126,17 @@ public class AddressTest {
     assertEquals(addressWithNullId1.hashCode(), addressWithId.hashCode());
   }
 
-  private String anyString() {
-    return String.valueOf(RANDOM.nextFloat());
+  @Test
+  public void toString_works_for_many_addresses(){
+    for(Address address : makeAddresses()){
+      String addressStr = address.toString();
+      assertNotNull(addressStr);
+      assertThat(addressStr, containsString(address.getLine1()));
+      System.out.println(addressStr);
+    }
+  }
+
+  private static String anyString() {
+    return RandomStringUtils.randomAscii(25);
   }
 }
