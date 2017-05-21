@@ -20,7 +20,12 @@ public class LocationDataValidatorTest {
   @Test
   public void isCountryCodeValid_should_be_false_for_invalid_country_codes() {
     for (String countryCode : new String[]{
-        "UK"
+        null
+        , ""
+        , "UK"
+        , "MARS"
+        , "United States"
+        , "USA"
     }) {
       assertFalse("Expected " + countryCode + " to be invalid, but was not",
           LocationDataValidator.getInstance().isCountryCodeValid(countryCode));
