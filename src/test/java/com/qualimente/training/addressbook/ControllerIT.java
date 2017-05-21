@@ -73,7 +73,7 @@ public class ControllerIT {
 
   }
 
-  static String makeCustomerId() {
+  private static String makeCustomerId() {
       return UUID.randomUUID().toString();
     }
   

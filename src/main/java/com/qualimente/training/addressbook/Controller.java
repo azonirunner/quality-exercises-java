@@ -64,7 +64,7 @@ public class Controller {
     }
   }
 
-  public LocationDataValidator getLocationDataValidator() {
+  LocationDataValidator getLocationDataValidator() {
     return locationDataValidator;
   }
 }
