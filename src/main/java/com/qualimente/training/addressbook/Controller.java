@@ -21,12 +21,12 @@ public class Controller {
   private final Logger log = LoggerFactory.getLogger(this.getClass());
 
   private final AddressDAO addressDAO;
-  private final GeoNamesLocationDataValidator locationDataValidator;
+  private final LocationDataValidator locationDataValidator;
 
   @Autowired
-  public Controller(@NotNull AddressDAO addressDAO) {
+  public Controller(@NotNull AddressDAO addressDAO, @NotNull LocationDataValidator locationDataValidator) {
     this.addressDAO = addressDAO;
-    this.locationDataValidator = GeoNamesLocationDataValidator.getInstance();
+    this.locationDataValidator = locationDataValidator;
   }
 
   AddressDAO getAddressDAO() {
@@ -62,5 +62,9 @@ public class Controller {
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+  }
+
+  public LocationDataValidator getLocationDataValidator() {
+    return locationDataValidator;
   }
 }

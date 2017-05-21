@@ -1,5 +1,6 @@
 package com.qualimente.training.addressbook;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -7,13 +8,20 @@ import static org.junit.Assert.assertTrue;
 
 public class GeoNamesLocationDataValidatorTest {
 
+  private GeoNamesLocationDataValidator geoNamesLocationDataValidator;
+
+  @Before
+  public void setUp(){
+    geoNamesLocationDataValidator = new GeoNamesLocationDataValidator();
+  }
+
   @Test
   public void isCountryCodeValid_should_be_true_for_valid_country_codes() {
     for (String countryCode : new String[]{
         "CA", "DE", "FR", "IT", "JP", "RU", "US"
     }) {
       assertTrue("Expected " + countryCode + " to be valid, but was not",
-          GeoNamesLocationDataValidator.getInstance().isCountryCodeValid(countryCode));
+          geoNamesLocationDataValidator.isCountryCodeValid(countryCode));
     }
   }
 
@@ -28,7 +36,7 @@ public class GeoNamesLocationDataValidatorTest {
         , "USA"
     }) {
       assertFalse("Expected " + countryCode + " to be invalid, but was not",
-          GeoNamesLocationDataValidator.getInstance().isCountryCodeValid(countryCode));
+          geoNamesLocationDataValidator.isCountryCodeValid(countryCode));
     }
   }
 
@@ -37,7 +45,7 @@ public class GeoNamesLocationDataValidatorTest {
     String countryCode = "US";
     String postalCode = "20500";
 
-    assertTrue("Expected ", GeoNamesLocationDataValidator.getInstance()
+    assertTrue("Expected ", geoNamesLocationDataValidator
         .isPostalCodeValid(countryCode, postalCode));
   }
 

@@ -3,6 +3,7 @@ package com.qualimente.training.addressbook;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,11 +20,10 @@ import java.util.zip.GZIPInputStream;
  *
  * Note: LocationDataValidator is 'troubled' class with a number of problems included to support exercises around refactoring code.
  */
+@Component
 public class GeoNamesLocationDataValidator implements LocationDataValidator {
 
   private static final Logger log = LoggerFactory.getLogger(GeoNamesLocationDataValidator.class);
-
-  private static final GeoNamesLocationDataValidator INSTANCE = new GeoNamesLocationDataValidator();
 
   private static final Map<String, Set<String>> postalCodesByCountryCode = makePostalCodesByCountryCode();
 
@@ -49,14 +49,6 @@ public class GeoNamesLocationDataValidator implements LocationDataValidator {
     }
   }
 
-
-  //hide constructor as part of Singleton implementation
-  private GeoNamesLocationDataValidator() {
-  }
-
-  public static GeoNamesLocationDataValidator getInstance() {
-    return INSTANCE;
-  }
 
   public boolean isCountryCodeValid(String countryCode){
     return postalCodesByCountryCode.containsKey(countryCode);
