@@ -24,13 +24,14 @@ public class AddressTest {
     }
 
   static Address makeAddress() {
-    return new Address(null, "line 1 - " + anyString(), "line 2 - " + anyString(), "city - " + anyString(), "postal code - " + anyString(), "state - " + anyString(), "country - " + anyString());
+    return new Address(null, anyString(), "line 1 - " + anyString(), "line 2 - " + anyString(), "city - " + anyString(), "postal code - " + anyString(), "state - " + anyString(), "country - " + anyString());
   }
 
   @Test
   public void constructor_stores_arguments() {
 
     String id = anyString();
+    String name = anyString();
     String line1 = anyString();
     String line2 = anyString();
     String city = anyString();
@@ -38,9 +39,10 @@ public class AddressTest {
     String state = anyString();
     String country = anyString();
 
-    Address address = new Address(id, line1, line2, city, postalCode, state, country);
+    Address address = new Address(id, name, line1, line2, city, postalCode, state, country);
 
     assertEquals(id, address.getId());
+    assertEquals(name, address.getName());
     assertEquals(line1, address.getLine1());
     assertEquals(line2, address.getLine2());
     assertEquals(city, address.getCity());
@@ -51,7 +53,7 @@ public class AddressTest {
 
   @Test
   public void constructor_permits_null_id(){
-    new Address(null, anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
+    new Address(null, anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
   }
 
   @Test
@@ -74,8 +76,8 @@ public class AddressTest {
     String state = anyString();
     String country = anyString();
 
-    Address address1 = new Address(id, line1, line2, city, postalCode, state, country);
-    Address address2 = new Address(id, line1, line2, city, postalCode, state, country);
+    Address address1 = new Address(id, anyString(), line1, line2, city, postalCode, state, country);
+    Address address2 = new Address(id, anyString(), line1, line2, city, postalCode, state, country);
 
     //noinspection ObjectEqualsNull
     assertFalse(address1.equals(null));
@@ -98,18 +100,18 @@ public class AddressTest {
     String state = anyString();
     String country = anyString();
 
-    Address address1 = new Address(id, line1, line2, city, postalCode, state, country);
-    Address address2 = new Address(id, line1, line2, city, postalCode, state, country);
+    Address address1 = new Address(id, anyString(), line1, line2, city, postalCode, state, country);
+    Address address2 = new Address(id, anyString(), line1, line2, city, postalCode, state, country);
 
     int add1Hash = address1.hashCode();
     assertEquals(add1Hash, address2.hashCode());
 
-    assertNotEquals(add1Hash, new Address(null, anyString(), line2, city, postalCode, state, country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, line1, anyString(), city, postalCode, state, country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, line1, line2, anyString(), postalCode, state, country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, line1, line2, city, anyString(), state, country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, line1, line2, city, postalCode, anyString(), country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, line1, line2, city, postalCode, state, anyString()).hashCode());
+    assertNotEquals(add1Hash, new Address(null, anyString(), anyString(), line2, city, postalCode, state, country).hashCode());
+    assertNotEquals(add1Hash, new Address(null, anyString(), line1, anyString(), city, postalCode, state, country).hashCode());
+    assertNotEquals(add1Hash, new Address(null, anyString(), line1, line2, anyString(), postalCode, state, country).hashCode());
+    assertNotEquals(add1Hash, new Address(null, anyString(), line1, line2, city, anyString(), state, country).hashCode());
+    assertNotEquals(add1Hash, new Address(null, anyString(), line1, line2, city, postalCode, anyString(), country).hashCode());
+    assertNotEquals(add1Hash, new Address(null, anyString(), line1, line2, city, postalCode, state, anyString()).hashCode());
   }
 
   @Test
