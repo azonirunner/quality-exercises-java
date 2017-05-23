@@ -78,18 +78,20 @@ public class AddressBookAPITest {
     String customerId = makeCustomerId();
     assertAddressBookIsNotFoundForCustomer(customerId);
 
+    String expectedName = "Ford Prefect";
     String expectedLine1 = "42 Douglas Adams Way";
     String expectedCity = "Phoenix";
     String expectedPostalCode = "85042";
     String expectedState = "AZ";
     String expectedCountry = "US";
     String addressJson = String.format("{" +
+                            "\"name\": \"%s\"," +
                             "\"line1\": \"%s\"," +
                             "\"city\": \"%s\"," +
                             "\"postalCode\": \"%s\"," +
                             "\"state\": \"%s\"," +
                             "\"country\": \"%s\"" +
-                            "}", expectedLine1, expectedCity, expectedPostalCode, expectedState, expectedCountry);
+                            "}", expectedName, expectedLine1, expectedCity, expectedPostalCode, expectedState, expectedCountry);
 
     URI uri = new UriTemplate(getCustomerAddressesUrl()).expand(customerId);
     final RequestEntity<String> addAddressRequest = RequestEntity.post(uri)
