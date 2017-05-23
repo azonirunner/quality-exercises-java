@@ -96,7 +96,7 @@ public class ControllerTest {
     String customerId = "abcd-1234";
     Controller controller = new Controller(addressDAO, locationDataValidator);
 
-    Address expectedAddress = new Address(null, "invalid country code", "line1", "line2", "Tempe", "85044", "AZ", invalidCountryCode);
+    Address expectedAddress = new Address.Builder().withId(null).withName("invalid country code").withLine1("line1").withLine2("line2").withCity("Tempe").withPostalCode("85044").withState("AZ").withCountry(invalidCountryCode).createAddress();
 
     ResponseEntity<Address> responseEntity = controller.addAddress(customerId, expectedAddress);
 

@@ -86,7 +86,7 @@ public class AddressBookAPIHoverflyRecorderMockMvcAPITest {
     String customerId = makeCustomerId();
     assertAddressBookIsNotFoundForCustomer(customerId);
 
-    Address expected = new Address(null, "Zaphod Beeblebrox", "42 Douglas Adams Way", null, "Phoenix", "85042", "AZ", "US");
+    Address expected = new Address.Builder().withId(null).withName("Zaphod Beeblebrox").withLine1("42 Douglas Adams Way").withLine2(null).withCity("Phoenix").withPostalCode("85042").withState("AZ").withCountry("US").createAddress();
 
     MvcResult result = mockMvc.perform(post(getCustomerAddressesUrl(), customerId)
         .contentType(MediaType.APPLICATION_JSON)

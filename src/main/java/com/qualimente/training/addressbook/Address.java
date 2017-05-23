@@ -51,7 +51,7 @@ public class Address {
   public String getCountry() { return this.country; }
 
   public Address copyWith(String id) {
-    return new Address(id, getName(), getLine1(), getLine2(), getCity(), getPostalCode(), getState(), getCountry());
+    return new Builder().withId(id).withName(getName()).withLine1(getLine1()).withLine2(getLine2()).withCity(getCity()).withPostalCode(getPostalCode()).withState(getState()).withCountry(getCountry()).createAddress();
   }
 
   @Override
@@ -90,4 +90,58 @@ public class Address {
     return ToStringBuilder.reflectionToString(this);
   }
 
+  public static class Builder {
+    private String id;
+    private String name;
+    private String line1;
+    private String line2;
+    private String city;
+    private String postalCode;
+    private String state;
+    private String country;
+
+    public Builder withId(String id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder withName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public Builder withLine1(String line1) {
+      this.line1 = line1;
+      return this;
+    }
+
+    public Builder withLine2(String line2) {
+      this.line2 = line2;
+      return this;
+    }
+
+    public Builder withCity(String city) {
+      this.city = city;
+      return this;
+    }
+
+    public Builder withPostalCode(String postalCode) {
+      this.postalCode = postalCode;
+      return this;
+    }
+
+    public Builder withState(String state) {
+      this.state = state;
+      return this;
+    }
+
+    public Builder withCountry(String country) {
+      this.country = country;
+      return this;
+    }
+
+    public Address createAddress() {
+      return new Address(id, name, line1, line2, city, postalCode, state, country);
+    }
+  }
 }

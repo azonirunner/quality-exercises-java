@@ -24,7 +24,7 @@ public class AddressTest {
     }
 
   static Address makeAddress() {
-    return new Address(null, "name - " + anyString(), "line 1 - " + anyString(), "line 2 - " + anyString(), "city - " + anyString(), "postal code - " + anyString(), "state - " + anyString(), "US");
+    return new Address.Builder().withId(null).withName("name - " + anyString()).withLine1("line 1 - " + anyString()).withLine2("line 2 - " + anyString()).withCity("city - " + anyString()).withPostalCode("postal code - " + anyString()).withState("state - " + anyString()).withCountry("US").createAddress();
   }
 
   @Test
@@ -39,7 +39,7 @@ public class AddressTest {
     String state = anyString();
     String country = anyString();
 
-    Address address = new Address(id, name, line1, line2, city, postalCode, state, country);
+    Address address = new Address.Builder().withId(id).withName(name).withLine1(line1).withLine2(line2).withCity(city).withPostalCode(postalCode).withState(state).withCountry(country).createAddress();
 
     assertEquals(id, address.getId());
     assertEquals(name, address.getName());
@@ -53,12 +53,12 @@ public class AddressTest {
 
   @Test
   public void constructor_permits_null_id(){
-    new Address(null, anyString() , anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
+    new Address.Builder().withId(null).withName(anyString()).withLine1(anyString()).withLine2(anyString()).withCity(anyString()).withPostalCode(anyString()).withState(anyString()).withCountry(anyString()).createAddress();
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void should_require_a_name(){
-    new Address(null, null , anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
+    new Address.Builder().withId(null).withName(null).withLine1(anyString()).withLine2(anyString()).withCity(anyString()).withPostalCode(anyString()).withState(anyString()).withCountry(anyString()).createAddress();
   }
 
   @Test
@@ -82,8 +82,8 @@ public class AddressTest {
     String state = anyString();
     String country = anyString();
 
-    Address address1 = new Address(id, name, line1, line2, city, postalCode, state, country);
-    Address address2 = new Address(id, name, line1, line2, city, postalCode, state, country);
+    Address address1 = new Address.Builder().withId(id).withName(name).withLine1(line1).withLine2(line2).withCity(city).withPostalCode(postalCode).withState(state).withCountry(country).createAddress();
+    Address address2 = new Address.Builder().withId(id).withName(name).withLine1(line1).withLine2(line2).withCity(city).withPostalCode(postalCode).withState(state).withCountry(country).createAddress();
 
     //noinspection ObjectEqualsNull
     assertFalse(address1.equals(null));
@@ -107,19 +107,19 @@ public class AddressTest {
     String state = anyString();
     String country = anyString();
 
-    Address address1 = new Address(id, name, line1, line2, city, postalCode, state, country);
-    Address address2 = new Address(id, name, line1, line2, city, postalCode, state, country);
+    Address address1 = new Address.Builder().withId(id).withName(name).withLine1(line1).withLine2(line2).withCity(city).withPostalCode(postalCode).withState(state).withCountry(country).createAddress();
+    Address address2 = new Address.Builder().withId(id).withName(name).withLine1(line1).withLine2(line2).withCity(city).withPostalCode(postalCode).withState(state).withCountry(country).createAddress();
 
     int add1Hash = address1.hashCode();
     assertEquals(add1Hash, address2.hashCode());
 
-    assertNotEquals(add1Hash, new Address(null, anyString(), line1, line2, city, postalCode, state, country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, name, anyString(), line2, city, postalCode, state, country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, name, line1, anyString(), city, postalCode, state, country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, name, line1, line2, anyString(), postalCode, state, country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, name, line1, line2, city, anyString(), state, country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, name, line1, line2, city, postalCode, anyString(), country).hashCode());
-    assertNotEquals(add1Hash, new Address(null, name, line1, line2, city, postalCode, state, anyString()).hashCode());
+    assertNotEquals(add1Hash, new Address.Builder().withId(null).withName(anyString()).withLine1(line1).withLine2(line2).withCity(city).withPostalCode(postalCode).withState(state).withCountry(country).createAddress().hashCode());
+    assertNotEquals(add1Hash, new Address.Builder().withId(null).withName(name).withLine1(anyString()).withLine2(line2).withCity(city).withPostalCode(postalCode).withState(state).withCountry(country).createAddress().hashCode());
+    assertNotEquals(add1Hash, new Address.Builder().withId(null).withName(name).withLine1(line1).withLine2(anyString()).withCity(city).withPostalCode(postalCode).withState(state).withCountry(country).createAddress().hashCode());
+    assertNotEquals(add1Hash, new Address.Builder().withId(null).withName(name).withLine1(line1).withLine2(line2).withCity(anyString()).withPostalCode(postalCode).withState(state).withCountry(country).createAddress().hashCode());
+    assertNotEquals(add1Hash, new Address.Builder().withId(null).withName(name).withLine1(line1).withLine2(line2).withCity(city).withPostalCode(anyString()).withState(state).withCountry(country).createAddress().hashCode());
+    assertNotEquals(add1Hash, new Address.Builder().withId(null).withName(name).withLine1(line1).withLine2(line2).withCity(city).withPostalCode(postalCode).withState(anyString()).withCountry(country).createAddress().hashCode());
+    assertNotEquals(add1Hash, new Address.Builder().withId(null).withName(name).withLine1(line1).withLine2(line2).withCity(city).withPostalCode(postalCode).withState(state).withCountry(anyString()).createAddress().hashCode());
   }
 
   @Test

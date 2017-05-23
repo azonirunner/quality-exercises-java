@@ -62,7 +62,7 @@ public class AddressBookAPIHoverflyRecorderHttpAPITest {
     String customerId = makeCustomerId();
     assertAddressBookIsNotFoundForCustomer(customerId);
 
-    Address expected = new Address(null, customerId, "42 Douglas Adams Way", null, "Phoenix", "85042", "AZ", "US");
+    Address expected = new Address.Builder().withId(null).withName(customerId).withLine1("42 Douglas Adams Way").withLine2(null).withCity("Phoenix").withPostalCode("85042").withState("AZ").withCountry("US").createAddress();
 
     URI uri = new UriTemplate(getCustomerAddressesUrl()).expand(customerId);
     final RequestEntity<String> addAddressRequest = RequestEntity.post(uri)
