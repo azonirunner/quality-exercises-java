@@ -20,11 +20,10 @@ import java.util.zip.GZIPInputStream;
  *
  * Note: LocationDataValidator is 'troubled' class with a number of problems included to support exercises around refactoring code.
  */
+@Component
 public class LocationDataValidator {
 
   private static final Logger log = LoggerFactory.getLogger(LocationDataValidator.class);
-
-  private static final LocationDataValidator INSTANCE = new LocationDataValidator();
 
   private static final Map<String, Set<String>> postalCodesByCountryCode = makePostalCodesByCountryCode();
 

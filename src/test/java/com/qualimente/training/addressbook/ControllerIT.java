@@ -11,9 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.*;
 
 import static org.hamcrest.Matchers.lessThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = AddressBookServer.class)
@@ -22,11 +20,14 @@ public class ControllerIT {
   @Autowired
   private AddressDAO addressDAO;
 
+  @Autowired
+  private LocationDataValidator locationDataValidator;
+
   @Test
   public void getAddressesForCustomer_should_find_customer_addresses_that_were_added_to_repository(){
     HashMap<String, List<Address>> addressesByCustomerId = new HashMap<>();
 
-    Controller controller = new Controller(addressDAO);
+    Controller controller = new Controller(addressDAO, locationDataValidator);
 
     int numCustomers = 100;
     for(int i = 0; i < numCustomers; i++){

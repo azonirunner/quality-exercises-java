@@ -21,10 +21,12 @@ public class Controller {
   private final Logger log = LoggerFactory.getLogger(this.getClass());
 
   private final AddressDAO addressDAO;
+  private final LocationDataValidator locationDataValidator;
 
   @Autowired
-  public Controller(@NotNull AddressDAO AddressDAO) {
+  public Controller(@NotNull AddressDAO AddressDAO, @NotNull LocationDataValidator locationDataValidator) {
     this.addressDAO = AddressDAO;
+    this.locationDataValidator = locationDataValidator;
   }
 
   AddressDAO getAddressDAO() {
@@ -51,6 +53,10 @@ public class Controller {
     log.info("adding address for customerId: {} address: {}", customerId, address);
 
     try {
+      if(!locationDataValidator.isCountryCodeValid(address.getCountry())){
+        return ResponseEntity.badRequest().body(address);
+      }
+      
       Address storedAddress = addressDAO.addAddress(customerId, address);
       return ResponseEntity.ok(storedAddress);
     } catch (Exception e) {

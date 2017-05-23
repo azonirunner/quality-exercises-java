@@ -14,14 +14,21 @@ public class ControllerTest {
   @Test
   public void constructor_should_store_arguments(){
     AddressDAO AddressDAO = makeAddressDAO();
-    Controller controller = new Controller(AddressDAO);
+    Controller controller = new Controller(AddressDAO, new LocationDataValidator());
     assertEquals(AddressDAO, controller.getAddressDAO());
   }
 
   @Test
   public void constructor_should_reject_null_arguments(){
     try {
-      new Controller(null);
+      new Controller(null, new LocationDataValidator());
+      fail("expected AssertionError");
+    } catch (AssertionError e) {
+      assertTrue("not-null assertion was triggered, as expected", true);
+    }
+
+    try {
+      new Controller(makeAddressDAO(), null);
       fail("expected AssertionError");
     } catch (AssertionError e) {
       assertTrue("not-null assertion was triggered, as expected", true);
@@ -36,7 +43,7 @@ public class ControllerTest {
     addressesByCustomerId.put(customerId, expectedAddresses);
     AddressDAO AddressDAO = new AddressDAOMemoryImpl(addressesByCustomerId);
 
-    Controller controller = new Controller(AddressDAO);
+    Controller controller = new Controller(AddressDAO, new LocationDataValidator());
 
     Object body = controller.getAddressesForCustomer(customerId).getBody();
     @SuppressWarnings("unchecked") List<Address> actualAddresses = (List<Address>) body;
@@ -48,7 +55,7 @@ public class ControllerTest {
     AddressDAO AddressDAO = new AddressDAOMemoryImpl(AddressDAOMemoryImplTest.makeAddressesByCustomerId());
 
     String customerId = "abcd-1234";
-    Controller controller = new Controller(AddressDAO);
+    Controller controller = new Controller(AddressDAO, new LocationDataValidator());
 
     Address expectedAddress = AddressTest.makeAddress();
     ResponseEntity<Address> responseEntity = controller.addAddress(customerId, expectedAddress);
@@ -59,6 +66,23 @@ public class ControllerTest {
     Object body = controller.getAddressesForCustomer(customerId).getBody();
     @SuppressWarnings("unchecked") List<Address> addresses = (List<Address>) body;
     assertTrue(addresses.contains(expectedAddress));
+  }
+
+  @Test
+  public void addAddress_should_reject_customer_address_with_invalid_country_code(){
+
+    AddressDAO addressDAO = new AddressDAOMemoryImpl(AddressDAOMemoryImplTest.makeAddressesByCustomerId());
+
+    String customerId = "abcd-1234";
+    Controller controller = new Controller(addressDAO, new LocationDataValidator());
+
+    Address address = new Address(null, "name", "line 1", "line 2", "city - ", "postal code - ", "state - "
+        , "invalid country");
+
+    ResponseEntity<Address> responseEntity = controller.addAddress(customerId, address);
+
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    assertEquals(address, responseEntity.getBody());
   }
 
   private AddressDAO makeAddressDAO() {
