@@ -69,6 +69,7 @@ public class AddressTest {
   @Test
   public void implement_equals_for_domain() {
     String id = anyString();
+    String name = anyString();
     String line1 = anyString();
     String line2 = anyString();
     String city = anyString();
@@ -76,8 +77,8 @@ public class AddressTest {
     String state = anyString();
     String country = anyString();
 
-    Address address1 = new Address(id, anyString(), line1, line2, city, postalCode, state, country);
-    Address address2 = new Address(id, anyString(), line1, line2, city, postalCode, state, country);
+    Address address1 = new Address(id, name, line1, line2, city, postalCode, state, country);
+    Address address2 = new Address(id, name, line1, line2, city, postalCode, state, country);
 
     //noinspection ObjectEqualsNull
     assertFalse(address1.equals(null));
@@ -93,6 +94,7 @@ public class AddressTest {
   @Test
   public void implement_hashCode_for_domain() {
     String id = anyString();
+    String name = anyString();
     String line1 = anyString();
     String line2 = anyString();
     String city = anyString();
@@ -100,13 +102,17 @@ public class AddressTest {
     String state = anyString();
     String country = anyString();
 
-    Address address1 = new Address(id, anyString(), line1, line2, city, postalCode, state, country);
-    Address address2 = new Address(id, anyString(), line1, line2, city, postalCode, state, country);
+    Address address1 = new Address(id, name, line1, line2, city, postalCode, state, country);
+    Address address2 = new Address(id, name, line1, line2, city, postalCode, state, country);
 
     int add1Hash = address1.hashCode();
     assertEquals(add1Hash, address2.hashCode());
 
-    assertNotEquals(add1Hash, new Address(null, anyString(), anyString(), line2, city, postalCode, state, country).hashCode());
+    Address addressName = new Address(null, anyString(), line1, line2, city, postalCode, state, country);
+    assertNotEquals(address1, addressName);
+    assertNotEquals(add1Hash, addressName.hashCode());
+    
+    assertNotEquals(add1Hash, new Address(null, name, anyString(), line2, city, postalCode, state, country).hashCode());
     assertNotEquals(add1Hash, new Address(null, anyString(), line1, anyString(), city, postalCode, state, country).hashCode());
     assertNotEquals(add1Hash, new Address(null, anyString(), line1, line2, anyString(), postalCode, state, country).hashCode());
     assertNotEquals(add1Hash, new Address(null, anyString(), line1, line2, city, anyString(), state, country).hashCode());
