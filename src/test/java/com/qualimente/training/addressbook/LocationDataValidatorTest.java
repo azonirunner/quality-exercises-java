@@ -12,7 +12,7 @@ public class LocationDataValidatorTest {
 
   @Before
   public void before(){
-    this.locationDataValidator = LocationDataValidator.getInstance();
+    this.locationDataValidator = new LocationDataValidator();
   }
 
   @Test

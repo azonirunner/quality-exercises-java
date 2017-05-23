@@ -3,6 +3,7 @@ package com.qualimente.training.addressbook;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,14 +50,6 @@ public class LocationDataValidator {
     }
   }
 
-
-  //hide constructor as part of Singleton implementation
-  private LocationDataValidator() {
-  }
-
-  public static LocationDataValidator getInstance() {
-    return INSTANCE;
-  }
 
   public boolean isCountryCodeValid(String countryCode){
     return postalCodesByCountryCode.containsKey(countryCode);
