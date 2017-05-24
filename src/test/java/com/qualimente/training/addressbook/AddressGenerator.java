@@ -23,6 +23,7 @@ public class AddressGenerator extends Generator<Address> {
         add(new PostalCountryPair("20500", "US"));
         add(new PostalCountryPair("85042", "US"));
         add(new PostalCountryPair("94065", "US"));
+        add(new PostalCountryPair("85283", "US"));
       }};
 
   public AddressGenerator() {
