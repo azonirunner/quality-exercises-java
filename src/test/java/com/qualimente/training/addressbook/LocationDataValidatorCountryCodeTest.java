@@ -28,6 +28,7 @@ public class LocationDataValidatorCountryCodeTest {
         {"US", true},
 
         // -- invalid --
+        {null, false},
         {"nonsense", false},
         {"USA", false},
 
