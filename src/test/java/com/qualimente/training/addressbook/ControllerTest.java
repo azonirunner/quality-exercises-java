@@ -1,6 +1,7 @@
 package com.qualimente.training.addressbook;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -83,6 +84,33 @@ public class ControllerTest {
 
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     assertEquals(address, responseEntity.getBody());
+  }
+
+  @Test
+  public void addAdress_should_retry_a_retryable_failure() {
+
+    String customerId = "abcd-1234";
+    Address originalAddress = AddressTest.makeAddress();
+
+    AddressDAO addressDAO = Mockito.mock(AddressDAO.class);
+
+    AddressDAO.RetryableException retryableException = new AddressDAO.RetryableException();
+    Address storedAddress = originalAddress.copyWith("my generated id");
+    Mockito.when(addressDAO.addAddress(customerId, originalAddress))
+        .thenThrow(retryableException) //first invocation
+        .thenReturn(storedAddress); //second invocation
+
+
+    Controller controller = new Controller(addressDAO, new LocationDataValidator());
+
+    ResponseEntity<Address> responseEntity = controller.addAddress(customerId, originalAddress);
+
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(originalAddress, responseEntity.getBody());
+    assertEquals(storedAddress.getId(), responseEntity.getBody().getId());
+
+    Mockito.verify(addressDAO, Mockito.times(2)).addAddress(customerId, originalAddress);
+
   }
 
   private AddressDAO makeAddressDAO() {

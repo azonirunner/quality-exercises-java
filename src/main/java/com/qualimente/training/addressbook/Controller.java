@@ -56,11 +56,22 @@ public class Controller {
       if(!locationDataValidator.isCountryCodeValid(address.getCountry())){
         return ResponseEntity.badRequest().body(address);
       }
-      
-      Address storedAddress = addressDAO.addAddress(customerId, address);
-      return ResponseEntity.ok(storedAddress);
+
+      int attemptNum = 1;
+      int maxAttempts = 2;
+      do {
+        try {
+          Address storedAddress = addressDAO.addAddress(customerId, address);
+          log.info("Stored address; attemptNum: " + attemptNum);
+          return ResponseEntity.ok(storedAddress);
+        } catch (AddressDAO.RetryableException retryable) {
+          log.error("Could not store address; attemptNum: " + attemptNum, retryable);
+          attemptNum++;
+        }
+      } while (attemptNum <= maxAttempts);
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
   }
 }
