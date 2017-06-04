@@ -26,7 +26,7 @@ public class ControllerIT {
 
     Controller controller = new Controller(addressDAO);
 
-    int numCustomers = 100;
+    int numCustomers = 75;
     for(int i = 0; i < numCustomers; i++){
       String customerId = makeCustomerId();
       List<Address> expectedAddresses = AddressTest.makeAddresses();
