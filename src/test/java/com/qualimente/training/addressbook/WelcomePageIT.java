@@ -4,8 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,8 +15,7 @@ import static org.hamcrest.Matchers.containsString;
  * WelcomePageIT is responsible for verifying the homepage works properly.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(AddressBookServer.class)
-@WebIntegrationTest("server.port:0")
+@SpringBootTest(classes = AddressBookServer.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WelcomePageIT {
 
   @Value("${local.server.port}")
