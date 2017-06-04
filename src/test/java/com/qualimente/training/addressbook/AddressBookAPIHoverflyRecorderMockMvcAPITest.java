@@ -12,8 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,9 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -35,9 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * AddressBookAPITest helps define and exercises the API contract of the AddressServer.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-//SpringApplicationConfiguration starts-up full application
-@SpringApplicationConfiguration(classes = {AddressBookServer.class, ContractValidationSupportConfiguration.class})
-@WebIntegrationTest("server.port:0") //set server.port to 0 for random
+@SpringBootTest(classes = AddressBookServer.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AddressBookAPIHoverflyRecorderMockMvcAPITest {
 
   private final Logger log = LoggerFactory.getLogger(this.getClass());

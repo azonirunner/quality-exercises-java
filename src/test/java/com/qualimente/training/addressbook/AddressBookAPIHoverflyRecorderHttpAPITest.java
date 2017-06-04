@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -29,10 +29,9 @@ import static org.junit.Assert.*;
  * AddressBookAPITest helps define and exercises the API contract of the AddressServer.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-//SpringApplicationConfiguration starts-up full application
-@SpringApplicationConfiguration(classes = { AddressBookServer.class, ContractValidationSupportConfiguration.class})
-@WebIntegrationTest("server.port:8080") //change port to 0 for random
+@SpringBootTest(classes = AddressBookServer.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("ContractValidationSupport")
+@AutoConfigureMockMvc()
 public class AddressBookAPIHoverflyRecorderHttpAPITest {
 
   @Value("${local.server.port}")
