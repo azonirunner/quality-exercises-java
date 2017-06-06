@@ -20,5 +20,8 @@ public interface AddressDAO {
    * @param address the address to add, not null
    */
   Address addAddress(String customerId, Address address);
-  
+
+  class RetryableException extends RuntimeException {
+    
+  }
 }

@@ -94,7 +94,7 @@ public class ControllerTest {
 
     //defines multiple/consecutive calls to addAddress
     Mockito.when(addressDAO.addAddress(customerId, address))
-        .thenThrow(new RuntimeException("retryable failure"))
+        .thenThrow(new AddressDAO.RetryableException())
         .thenReturn(address);
 
     Controller controller = new Controller(addressDAO);
@@ -125,8 +125,8 @@ public class ControllerTest {
 
     //defines multiple/consecutive calls to addAddress
     Mockito.when(addressDAO.addAddress(customerId, address))
-        .thenThrow(new RuntimeException("retryable failure"))
-        .thenThrow(new RuntimeException("retryable failure"));
+        .thenThrow(new AddressDAO.RetryableException())
+        .thenThrow(new AddressDAO.RetryableException());
 
     Controller controller = new Controller(addressDAO);
 
