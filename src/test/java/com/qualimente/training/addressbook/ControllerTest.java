@@ -84,8 +84,69 @@ public class ControllerTest {
 
   @Test
   public void addAddress_should_retry_adding_address_once_on_retryable_failure(){
+    //given:
+    //create valid address and controller
+    String customerId = "abcd-1234";
+    Address address = AddressTest.makeAddress();
+
+    //make a mock DAO that will fail first time and pass the second
+    AddressDAO addressDAO = Mockito.mock(AddressDAO.class);
+
+    //defines multiple/consecutive calls to addAddress
+    Mockito.when(addressDAO.addAddress(customerId, address))
+        .thenThrow(new RuntimeException("retryable failure"))
+        .thenReturn(address);
+
+    Controller controller = new Controller(addressDAO);
+
+    //when:
+    ResponseEntity<Address> responseEntity = controller.addAddress(customerId, address);
+
+    //then:
+    //status code
+    assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    assertEquals(address, responseEntity.getBody());
     
+    //verify DAO's add Address called twice
+    Mockito.verify(addressDAO, Mockito.times(2))
+        .addAddress(customerId, address);
+    Mockito.verifyNoMoreInteractions(addressDAO);
   }
+  
+  @Test
+  public void addAddress_should_retry_adding_address_once_on_retryable_failure_eventual_failure(){
+    //given:
+    //create valid address and controller
+    //make a mock DAO that will fail first time and pass the second
+    AddressDAO addressDAO = Mockito.mock(AddressDAO.class);
+
+    String customerId = "abcd-1234";
+    Address address = AddressTest.makeAddress();
+
+    //defines multiple/consecutive calls to addAddress
+    Mockito.when(addressDAO.addAddress(customerId, address))
+        .thenThrow(new RuntimeException("retryable failure"))
+        .thenThrow(new RuntimeException("retryable failure"));
+
+    Controller controller = new Controller(addressDAO);
+
+    //when:
+    ResponseEntity<Address> responseEntity = controller.addAddress(customerId, address);
+
+    //then:
+    //status code
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+    //verify DAO's add Address called twice
+    Mockito.verify(addressDAO, Mockito.times(2))
+        .addAddress(customerId, address);
+    Mockito.verifyNoMoreInteractions(addressDAO);
+  }
+
+// invalid - tries to define behavior of addAddress multiple times
+//    Mockito.when(addressDAO.addAddress(customerId, address))
+//        .thenThrow(new RuntimeException("retryable failure"));
+//    Mockito.when(addressDAO.addAddress(customerId, address))
+//        .thenReturn(address);
 
   private AddressDAO makeAddressDAO() {
     return new AddressDAOMemoryImpl();

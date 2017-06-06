@@ -52,8 +52,19 @@ public class Controller {
 
     try {
       try {
-        Address storedAddress = addressDAO.addAddress(customerId, address);
-        return ResponseEntity.ok(storedAddress);
+        Address storedAddress;
+        int attemptNum = 1;
+        int maxAttempts = 2;
+        do {
+          try {
+            storedAddress = addressDAO.addAddress(customerId, address);
+            return ResponseEntity.ok(storedAddress);
+          } catch (RuntimeException e) {
+            attemptNum++;
+            log.error("Caught retryable exception; attemptNum: " + attemptNum + " maxAttempts: " + maxAttempts, e);
+          }
+        } while (attemptNum <= maxAttempts);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
       } catch (IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(address);
       }
