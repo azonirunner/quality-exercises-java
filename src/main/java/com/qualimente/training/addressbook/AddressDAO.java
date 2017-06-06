@@ -15,9 +15,10 @@ public interface AddressDAO {
   List<Address> findAddressesForCustomerId(String customerId);
 
   /**
-   * Add an address to a customer's list of addresses
+   * Add an address to a customer's list of addresses.  Location data will be validated prior to storage.
    *  @param customerId the customer id, not null
    * @param address the address to add, not null
    */
   Address addAddress(String customerId, Address address);
+  
 }

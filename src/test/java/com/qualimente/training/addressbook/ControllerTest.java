@@ -1,6 +1,7 @@
 package com.qualimente.training.addressbook;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -59,6 +60,31 @@ public class ControllerTest {
     Object body = controller.getAddressesForCustomer(customerId).getBody();
     @SuppressWarnings("unchecked") List<Address> addresses = (List<Address>) body;
     assertTrue(addresses.contains(expectedAddress));
+  }
+
+  @Test
+  public void addAddress_should_reject_addresses_with_invalid_country_codes(){
+    //given
+    String customerId = "abcd-1234";
+    Address invalidAddress = new Address(null, "line1", "line2", "city", "85224", "AZ", "invalid");
+    AddressDAO addressDAO = Mockito.mock(AddressDAO.class);
+    Mockito.when(addressDAO.addAddress(customerId, invalidAddress))
+        .thenThrow(new IllegalArgumentException("Invalid address " + invalidAddress.getCountry()));
+
+    //when
+    Controller controller = new Controller(addressDAO);
+    ResponseEntity<Address> responseEntity = controller.addAddress(customerId, invalidAddress);
+
+    //then
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+
+    Mockito.verify(addressDAO, Mockito.times(1))
+        .addAddress(customerId, invalidAddress);
+  }
+
+  @Test
+  public void addAddress_should_retry_adding_address_once_on_retryable_failure(){
+    
   }
 
   private AddressDAO makeAddressDAO() {

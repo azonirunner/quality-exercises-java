@@ -51,8 +51,12 @@ public class Controller {
     log.info("adding address for customerId: {} address: {}", customerId, address);
 
     try {
-      Address storedAddress = addressDAO.addAddress(customerId, address);
-      return ResponseEntity.ok(storedAddress);
+      try {
+        Address storedAddress = addressDAO.addAddress(customerId, address);
+        return ResponseEntity.ok(storedAddress);
+      } catch (IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(address);
+      }
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
