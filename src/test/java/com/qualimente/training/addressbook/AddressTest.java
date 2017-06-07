@@ -108,6 +108,10 @@ public class AddressTest {
     int add1Hash = address1.hashCode();
     assertEquals(add1Hash, address2.hashCode());
 
+    Address addressWithDifferentName = new Address(null, anyString(), line1, line2, city, postalCode, state, country);
+    assertNotEquals(address1, addressWithDifferentName);
+    assertNotEquals(add1Hash, addressWithDifferentName.hashCode());
+    
     assertNotEquals(add1Hash, new Address(null, name, anyString(), line2, city, postalCode, state, country).hashCode());
     assertNotEquals(add1Hash, new Address(null, name, line1, anyString(), city, postalCode, state, country).hashCode());
     assertNotEquals(add1Hash, new Address(null, name, line1, line2, anyString(), postalCode, state, country).hashCode());
