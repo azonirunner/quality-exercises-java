@@ -66,7 +66,7 @@ public class ControllerTest {
   public void addAddress_should_reject_addresses_with_invalid_country_codes(){
     //given
     String customerId = "abcd-1234";
-    Address invalidAddress = new Address(null, "line1", "line2", "city", "85224", "AZ", "invalid");
+    Address invalidAddress = new Address(null, "name", "line1", "line2", "city", "85224", "AZ", "invalid");
     AddressDAO addressDAO = Mockito.mock(AddressDAO.class);
     Mockito.when(addressDAO.addAddress(customerId, invalidAddress))
         .thenThrow(new IllegalArgumentException("Invalid address " + invalidAddress.getCountry()));

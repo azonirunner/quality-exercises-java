@@ -49,7 +49,7 @@ public class AddressBookAPITest {
     String customerId = makeCustomerId();
     assertAddressBookIsNotFoundForCustomer(customerId);
 
-    Address expected = new Address(null, "42 Douglas Adams Way", null, "Phoenix", "85042", "AZ", "US");
+    Address expected = new Address(null, "name", "42 Douglas Adams Way", null, "Phoenix", "85042", "AZ", "US");
 
     URI uri = new UriTemplate(getCustomerAddressesUrl()).expand(customerId);
     final RequestEntity<String> addAddressRequest = RequestEntity.post(uri)
