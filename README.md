@@ -80,6 +80,8 @@ This project may also be built with Docker and Docker Compose:
 * build project: `docker-compose run build`
 * generate reports: `docker-compose run reports`  
 * run the server: `docker-compose run --service-ports server`
+* build a portable service runtime image: `docker-compose build runtime-image`
+* run the server image: `docker-compose run --service-ports runtime-image`  
 
 # Thanks #
 

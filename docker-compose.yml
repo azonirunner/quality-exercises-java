@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   build:
@@ -26,3 +26,10 @@ services:
     ports:
      - 8080:8080
     command: java -jar target/quality-1.0-SNAPSHOT.jar
+
+  runtime-image:
+    build:
+      context: .
+    image: qualimente/java-service-exercise
+    ports:
+     - 8080:8080
